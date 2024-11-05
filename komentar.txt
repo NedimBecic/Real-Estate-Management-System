@@ -1,0 +1,9 @@
+Projekat - Spirala 1
+
+Zadatak 1 
+Postojeći kod zadovoljava funkcionalne zahtjeve projekta te je formatiran u skladu sa standardima. 
+CSS klase su čitljive i jasno označene, čime doprinose razumljivosti koda. 
+Izbor boja i stilova za sve elemente također je prikladan i estetski usklađen.
+
+Jedini prijedlog za poboljšanje bio bi blago pomicanje menija prema sredini unutar glavnog kontejnera radi poboljšanja upotrebljivosti i vidljivosti.
+
