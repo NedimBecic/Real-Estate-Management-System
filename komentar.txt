@@ -9,3 +9,7 @@ Izbor boja i stilova za sve elemente također je prikladan i estetski usklađen.
 Jedini prijedlog za poboljšanje bio bi blago pomicanje menija prema sredini unutar glavnog kontejnera radi poboljšanja upotrebljivosti i vidljivosti.
 Pored prijedloga za poboljšanje, postojala je i greška, odnosno iframe element na stranici nekretnine.html je blokirao punu vidjljivost menija (promjena sa 50px na 80px širine).
 
+Zadatak 2
+Kao i u prethodnom zadatku, postojeći kod je adekvatan za sve funkcionalne zahtjeve. 
+
+Što se tiče promjena, one su uglavnom stilske odnosno drugačiji odabir boja za kartice odnosno po sekcijama bi bio znatno ugodniji i prikladniji.
