@@ -55,10 +55,10 @@ h1 {
     grid-row: 1;
   }
   .visokaVijest {
-    width: 100%;
+    width: 25vw;
   }
   .kvadratnaVijest {
-    width: 100%;
+    height: 25vw;
   }
 
   #visokaVijestDrugiSection,
@@ -131,10 +131,10 @@ h1 {
     grid-row: 1;
   }
   .visokaVijest {
-    width: 100%;
+    width: 50vw;
   }
   .kvadratnaVijest {
-    width: 100%;
+    height: 50vw;
   }
 
   #visokaVijestDrugiSection {
