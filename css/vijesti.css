@@ -5,17 +5,29 @@ body {
   padding: 0;
 }
 
+iframe {
+  border: none;
+  width: 100%;
+  height: 100%;
+}
 
 .vijesti-grid {
   display: grid;
   justify-content: center;
-  align-items: center;
+  width: 90vw;
+  margin: 0 auto;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: stretch;
 }
 
 .glavnaVijest {
-  background-color: aqua;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
   box-sizing: border-box;
+  border: 1px solid white;
+  position: relative;
+  text-align: center;
+  overflow: hidden;
 }
 
 .text,
@@ -24,28 +36,49 @@ h1 {
 }
 
 .naslovna {
-  width: 400px;
-  height: 250px;
-  float: left;
-  padding: 20px;
+  width: 100%;
+  height: auto;
+}
+
+.title,
+.text-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: white;
+  transform: translate(-50%, -100%);
+  text-align: center;
+  width: 80%;
+}
+
+.title {
+  font-size: 4vw;
+}
+
+.text-title {
+  font-size: 1vw;
+  margin-top: 5.5vw;
+  font-weight: 800;
 }
 
 .visokaVijest {
   aspect-ratio: 1/2;
-  background-color: khaki;
+  background-image: linear-gradient(to bottom,#DC245F, #3D1E74); 
   box-sizing: border-box;
   padding: 10px;
-  height: 100%;
-  border: 1px solid black;
+  border: 1px solid white;
+  color: white;
+  text-align: justify;
 }
 
 .kvadratnaVijest {
   aspect-ratio: 1/1;
-  background-color: coral;
+  background-color: #00216E;
   box-sizing: border-box;
   padding: 10px;
-  height: 100%;
-  border: 1px solid black;
+  border: 1px solid white;
+  color: white;
+  text-align: justify;
 }
 
 @media (min-width: 800px) {
@@ -53,12 +86,6 @@ h1 {
     aspect-ratio: 2/1;
     grid-column: 1 / span 4;
     grid-row: 1;
-  }
-  .visokaVijest {
-    width: 25vw;
-  }
-  .kvadratnaVijest {
-    height: 25vw;
   }
 
   #visokaVijestDrugiSection,
@@ -125,16 +152,26 @@ h1 {
 }
 
 @media (max-width: 799px) {
+  .vijesti-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
   .glavnaVijest {
     aspect-ratio: 1/1;
     grid-column: 1 / span 2;
     grid-row: 1;
   }
-  .visokaVijest {
-    width: 50vw;
+
+  .naslovna {
+    height: 100%;
   }
-  .kvadratnaVijest {
-    height: 50vw;
+
+  .title {
+    font-size: 5vw;
+  }
+
+  .text-title {
+    font-size: 1.5vw;
+    margin-top: 7vw;
   }
 
   #visokaVijestDrugiSection {
@@ -145,7 +182,7 @@ h1 {
   }
 
   #visokaVijestDrugiSection {
-    grid-column: 2;
+    grid-column: 1;
   }
 
   #visokaVijestDrugiSection2 {
@@ -176,7 +213,7 @@ h1 {
 
   #kvadratnaVijestGornjiLijevi {
     grid-row: 2;
-    grid-column: 1;
+    grid-column: 2;
   }
   #kvadratnaVijestGornjiLijevi2 {
     grid-row: 6;
@@ -194,10 +231,11 @@ h1 {
 
   #kvadratnaVijestDonjiLijevi {
     grid-row: 3;
-    grid-column: 1;
+    grid-column: 2;
   }
   #kvadratnaVijestDonjiLijevi2 {
     grid-row: 7;
     grid-column: 1;
   }
 }
+

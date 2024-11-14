@@ -32,14 +32,24 @@ li a:hover {
 }
 
 .menu-icon {
-  font-size: 24px; 
+  font-size: 24px;
   transition: transform 0.3s ease;
 }
 
-.item-text:hover {
+li a:hover .item-text {
   opacity: 0;
+  transition: opacity 0.5s;
 }
 
-.item-text:hover + .menu-icon {
-  transform: scale(2); 
+li a:hover .menu-icon {
+  transform: scale(2.5) translateY(-4px);
+  width: auto;
+}
+
+.menu-icon {
+  display: block;
+  margin: 0 auto;
+  width: 24px;
+  height: 24px;
+  transition: transform 1s ease;
 }
