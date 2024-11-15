@@ -20,8 +20,10 @@ Zadatak je prošao bez problema.
 
 Zadatak 4
 Nakon nekih nejasnoća, zadatak je urađen korištenjem Grid layouta. Bez korištenja međukontejnerskih tipova, ne vidim način kako bi se "mini grid" od 4 kvadratne vijesti mogao adekvatno rasporediti.
-Naravno, dodavanje novih elemenata odnosno vijesti zahtjevalo bi dodavanje pojedinačnih pravila i id-a za odgovarajuće novododane vijesti, te njihovo pravilno raspoređivanje. Pokušaji da se ovaj proces 
-automatizuje, tj. ne koristi id nego odgovarajuće klase su neuspješni, jer različiti redovi (pravila layout-a zadana u postavci projekta) imaju različitih layout tako da nije jasno kako bi se odvijalo dodavanje 
-novih elemenata. 
 
-Po potrebi je moguće uraditi pokazati i kod koji će omogućiti dodavanje elemenata/vijesti bez potrebnog manuelnog dodavanja odgovarajućih id-eva, ali takava kod će koristiti međukontejnerske elemente. 
+(Naravno, dodavanje novih elemenata odnosno vijesti zahtjevalo bi dodavanje pojedinačnih pravila i id-a za odgovarajuće novododane vijesti, te njihovo pravilno raspoređivanje. Pokušaji da se ovaj proces 
+automatizuje, tj. ne koristi id nego odgovarajuće klase su neuspješni, jer različiti redovi (pravila layout-a zadana u postavci projekta) imaju različitih layout tako da nije jasno kako bi se odvijalo dodavanje 
+novih elemenata. Po potrebi je moguće uraditi pokazati i kod koji će omogućiti dodavanje elemenata/vijesti bez potrebnog manuelnog dodavanja odgovarajućih id-eva, ali takava kod će koristiti međukontejnerske elemente. ) --> prije pojašnjena na Piazzi
+
+Dodavanje novih elemenata u grid se odvija kako je naznačeno na Piazzi, s lijeva na desno.
+
