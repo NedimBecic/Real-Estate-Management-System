@@ -6,7 +6,8 @@ CSS klase su čitljive i jasno označene, čime doprinose razumljivosti koda.
 Izbor boja i stilova za sve elemente također je prikladan i estetski usklađen.
 
 Jedini prijedlog za poboljšanje bio bi blago pomicanje menija prema sredini unutar glavnog kontejnera radi poboljšanja upotrebljivosti i vidljivosti.
-Pored prijedloga za poboljšanje, postojala je i greška, odnosno iframe element na stranici nekretnine.html je blokirao punu vidjljivost menija (promjena sa 50px na 100% širine).
+Pored prijedloga za poboljšanje, postojala je i greška, odnosno iframe element na svim stranicama nije imao ispravnu visinu odnosno blokirao je punu vidjljivost menija (promjena sa 50px na 100% širine).
+Također, meni nije radio ispravno, tj. nije se pravilno linkovao na odgovarajuće stranice. 
 
 Zadatak 2
 Kao i u prethodnom zadatku, postojeći kod je adekvatan za sve funkcionalne zahtjeve. 
@@ -16,7 +17,9 @@ Jedan od glavnih razloga što nije moguće postići ovakav layout su proturječn
 Pokušaji da se postigne isti layout su uključivali dodavanje margina na container Stanovi, međutim to nije imalo željenu efekt.
 
 Zadatak 3
-Zadatak je prošao bez problema.
+Zadatak je prošao bez problema. 
+Jedina promjena bi možda bila širina text box-a na stranicama manjim od 600px, da bi se stavili buttoni za prebacivanje sa lijeve odnosno desne strane text box-a.
+Ovo bi se lako moglo postići u par izmjena u css-u, odnosno promjene width property-a klase .upit i promjene flex-direction u column klase .upiti na širinama manjim od 600px.
 
 Zadatak 4
 Nakon nekih nejasnoća, zadatak je urađen korištenjem Grid layouta. Bez korištenja međukontejnerskih tipova, ne vidim način kako bi se "mini grid" od 4 kvadratne vijesti mogao adekvatno rasporediti.

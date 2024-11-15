@@ -71,6 +71,7 @@ h1 {
   color: white;
   text-align: justify;
   grid-row: span 2;
+  overflow: auto;
 }
 
 .kvadratnaVijest {
@@ -82,6 +83,7 @@ h1 {
   color: white;
   text-align: justify;
   grid-row: span 1;
+  overflow: auto;
 }
 
 @media (min-width: 800px) {
