@@ -1,5 +1,4 @@
 function postaviCarousel(glavniElement, sviElementi, index = 0) {
-  // Validate input parameters
   if (
     glavniElement == null ||
     glavniElement == undefined ||
