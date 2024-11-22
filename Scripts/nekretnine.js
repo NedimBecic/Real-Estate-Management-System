@@ -1,61 +1,65 @@
 function spojiNekretnine(divReferenca, instancaModula, tip_nekretnine) {
-    // pozivanje metode za filtriranje
-    const filtriraneNekretnine = instancaModula.filtrirajNekretnine({ tip_nekretnine: tip_nekretnine });
-    
-    // iscrtavanje elemenata u divReferenca element
+  const filtriraneNekretnine = instancaModula.filtrirajNekretnine({
+    tip_nekretnine: tip_nekretnine,
+  });
 
-    // Ciscenje svih elemenata liste
-    divReferenca.innerHTML = '';
+  divReferenca.innerHTML = "";
 
-    if (filtriraneNekretnine.length === 0) {
-        divReferenca.innerHTML = '<p>Trenutno nema dostupnih nekretnina ovoga tipa.</p>';
-    } else {
-        filtriraneNekretnine.forEach(nekretnina => {
-            const nekretninaElement = document.createElement('div');
-            if(tip_nekretnine==="Stan"){
-                nekretninaElement.classList.add('nekretnina');
-            }
-            else if(tip_nekretnine==="Kuća"){
-                nekretninaElement.classList.add('nekretnina','kuca');
-            }
-            else{
-                nekretninaElement.classList.add('nekretnina','pp');
-            }
-            
-            const slikaElement = document.createElement('img');
-            slikaElement.classList.add('slika-nekretnine');
-            slikaElement.src = `../Resources/${nekretnina.id}.jpg`;
-            slikaElement.alt = nekretnina.naziv;
-            nekretninaElement.appendChild(slikaElement);
+  const titleElement = document.createElement("h1");
+  titleElement.textContent = tip_nekretnine; 
+  divReferenca.appendChild(titleElement);
 
-            const detaljiElement = document.createElement('div');
-            detaljiElement.classList.add('detalji-nekretnine');
-            detaljiElement.innerHTML = `
+  const gridContainer = document.createElement("div");
+  gridContainer.classList.add("grid-lista-nekretnina");
+  divReferenca.appendChild(gridContainer);
+
+
+  if (filtriraneNekretnine.length === 0) {
+    divReferenca.innerHTML =
+      "<p>Trenutno nema dostupnih nekretnina ovoga tipa.</p>";
+  } else {
+    filtriraneNekretnine.forEach((nekretnina) => {
+      const nekretninaElement = document.createElement("div");
+      nekretninaElement.classList.add("nekretnina", "tip-nekretnine");
+
+      if (tip_nekretnine === "Kuća") {
+        nekretninaElement.classList.add("kuca");
+      } else if (tip_nekretnine === "Poslovni prostor") {
+        nekretninaElement.classList.add("pp");
+      }
+
+      const slikaElement = document.createElement("img");
+      slikaElement.classList.add("slika-nekretnine");
+      slikaElement.src = `../Resources/${nekretnina.id}.jpg`;
+      slikaElement.alt = nekretnina.naziv;
+      nekretninaElement.appendChild(slikaElement);
+
+      const detaljiElement = document.createElement("div");
+      detaljiElement.classList.add("detalji-nekretnine");
+      detaljiElement.innerHTML = `
                 <h3>${nekretnina.naziv}</h3>
                 <p>Kvadratura: ${nekretnina.kvadratura} m²</p>
             `;
-            nekretninaElement.appendChild(detaljiElement);
+      nekretninaElement.appendChild(detaljiElement);
 
-            const cijenaElement = document.createElement('div');
-            cijenaElement.classList.add('cijena-nekretnine');
-            cijenaElement.innerHTML = `<p>Cijena: ${nekretnina.cijena} BAM</p>`;
-            nekretninaElement.appendChild(cijenaElement);
+      const cijenaElement = document.createElement("div");
+      cijenaElement.classList.add("cijena-nekretnine");
+      cijenaElement.innerHTML = `<p>Cijena: ${nekretnina.cijena} BAM</p>`;
+      nekretninaElement.appendChild(cijenaElement);
 
-            const detaljiDugme = document.createElement('a');
-            detaljiDugme.href = '../HTML/detalji.html'; // hardkodiran html
-            detaljiDugme.classList.add('detalji-dugme');
-            detaljiDugme.textContent = 'Detalji';
-            nekretninaElement.appendChild(detaljiDugme);
+      const detaljiDugme = document.createElement("a");
+      detaljiDugme.href = "../HTML/detalji.html";
+      detaljiDugme.classList.add("detalji-dugme");
+      detaljiDugme.textContent = "Detalji";
+      nekretninaElement.appendChild(detaljiDugme);
 
-
-            // Dodavanje kreiranog elementa u divReferenci
-            divReferenca.appendChild(nekretninaElement);
-        });
-    }
+      gridContainer.appendChild(nekretninaElement);
+    });
+  }
 }
 
-
-const listaNekretnina = [{
+const listaNekretnina = [
+  {
     id: 1,
     tip_nekretnine: "Stan",
     naziv: "Useljiv stan Sarajevo",
@@ -66,15 +70,18 @@ const listaNekretnina = [{
     godina_izgradnje: 2019,
     datum_objave: "01.10.2023.",
     opis: "Sociis natoque penatibus.",
-    upiti: [{
+    upiti: [
+      {
         korisnik_id: 1,
-        tekst_upita: "Nullam eu pede mollis pretium."
-    },
-    {
+        tekst_upita: "Nullam eu pede mollis pretium.",
+      },
+      {
         korisnik_id: 2,
-        tekst_upita: "Phasellus viverra nulla."
-    }]
-},{
+        tekst_upita: "Phasellus viverra nulla.",
+      },
+    ],
+  },
+  {
     id: 1,
     tip_nekretnine: "Stan",
     naziv: "Useljiv stan Sarajevo",
@@ -85,15 +92,18 @@ const listaNekretnina = [{
     godina_izgradnje: 2019,
     datum_objave: "01.10.2009.",
     opis: "Sociis natoque penatibus.",
-    upiti: [{
+    upiti: [
+      {
         korisnik_id: 1,
-        tekst_upita: "Nullam eu pede mollis pretium."
-    },
-    {
+        tekst_upita: "Nullam eu pede mollis pretium.",
+      },
+      {
         korisnik_id: 2,
-        tekst_upita: "Phasellus viverra nulla."
-    }]
-},{
+        tekst_upita: "Phasellus viverra nulla.",
+      },
+    ],
+  },
+  {
     id: 1,
     tip_nekretnine: "Stan",
     naziv: "Useljiv stan Sarajevo",
@@ -104,16 +114,18 @@ const listaNekretnina = [{
     godina_izgradnje: 2019,
     datum_objave: "01.10.2003.",
     opis: "Sociis natoque penatibus.",
-    upiti: [{
+    upiti: [
+      {
         korisnik_id: 1,
-        tekst_upita: "Nullam eu pede mollis pretium."
-    },
-    {
+        tekst_upita: "Nullam eu pede mollis pretium.",
+      },
+      {
         korisnik_id: 2,
-        tekst_upita: "Phasellus viverra nulla."
-    }]
-},
-{
+        tekst_upita: "Phasellus viverra nulla.",
+      },
+    ],
+  },
+  {
     id: 2,
     tip_nekretnine: "Kuća",
     naziv: "Mali poslovni prostor",
@@ -124,13 +136,14 @@ const listaNekretnina = [{
     godina_izgradnje: 2005,
     datum_objave: "20.08.2023.",
     opis: "Magnis dis parturient montes.",
-    upiti: [{
+    upiti: [
+      {
         korisnik_id: 2,
-        tekst_upita: "Integer tincidunt."
-    }
-    ]
-},
-{
+        tekst_upita: "Integer tincidunt.",
+      },
+    ],
+  },
+  {
     id: 3,
     tip_nekretnine: "Kuća",
     naziv: "Mali poslovni prostor",
@@ -141,13 +154,14 @@ const listaNekretnina = [{
     godina_izgradnje: 2005,
     datum_objave: "20.08.2023.",
     opis: "Magnis dis parturient montes.",
-    upiti: [{
+    upiti: [
+      {
         korisnik_id: 2,
-        tekst_upita: "Integer tincidunt."
-    }
-    ]
-},
-{
+        tekst_upita: "Integer tincidunt.",
+      },
+    ],
+  },
+  {
     id: 4,
     tip_nekretnine: "Kuća",
     naziv: "Mali poslovni prostor",
@@ -158,25 +172,29 @@ const listaNekretnina = [{
     godina_izgradnje: 2005,
     datum_objave: "20.08.2023.",
     opis: "Magnis dis parturient montes.",
-    upiti: [{
+    upiti: [
+      {
         korisnik_id: 2,
-        tekst_upita: "Integer tincidunt."
-    }
-    ]
-}]
+        tekst_upita: "Integer tincidunt.",
+      },
+    ],
+  },
+];
 
-const listaKorisnika = [{
+const listaKorisnika = [
+  {
     id: 1,
     ime: "Neko",
     prezime: "Nekic",
     username: "username1",
-},
-{
+  },
+  {
     id: 2,
     ime: "Neko2",
     prezime: "Nekic2",
     username: "username2",
-}]
+  },
+];
 
 const divStan = document.getElementById("stan");
 const divKuca = document.getElementById("kuca");
