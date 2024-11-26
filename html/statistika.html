@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="bs-BA">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Statistika</title>
+    <link rel="stylesheet" type="text/css" href="../css/statistika.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <iframe src="meni.html"></iframe>
+    <div class="content-container">
+      <h1>Statistika nekretnina</h1>
+
+      <div class="input-container">
+        <input
+          type="text"
+          placeholder="Unesite raspone perioda (npr. 2000 2010, 2010 2024...)"
+          id="rasponiPeriodaInput"
+        />
+        <label for="rasponiPeriodaInput"> Rasponi perioda: </label>
+      </div>
+
+      <div class="input-container">
+        <input
+          type="text"
+          placeholder="Unesite raspone cijena (npr. 10000 150000, 150000 1000000...)"
+          id="rasponiCijenaInput"
+        />
+        <label for="rasponiCijenaInput"> Rasponi cijena: </label>
+      </div>
+
+      <div class="button-container">
+        <button class="btn" id="submitButton">Prikaži graf</button>
+      </div>
+
+      <h3 class="subtitle">Grafički prikaz</h3>
+
+      <div class="histogram-container">
+        <p id="placeholder-text">Trenutno nema podataka za crtanje grafa.</p>
+      </div>
+
+      <h3 class="subtitle">Računanje prosječne kvadrature po kriteriju</h3>
+
+      <div class="input-container">
+        <input
+          type="text"
+          placeholder="Unesite tip nekretnine (stan, kuća, poslovni prostor ili ostavite prazno da preskočite ovaj korak)"
+          id="tipNekretnineInput"
+        />
+        <label for="tipNekretnineInput"> Tip nekretnine: </label>
+      </div>
+
+      <div class="input-container">
+        <input
+          type="text"
+          placeholder="Unesite minimalnu kvadraturu (ostavite prazno da preskočite ovaj korak)"
+          id="minKvadraturaInput"
+        />
+        <label for="minKvadraturaInput"> Minimalna kvadratura: </label>
+      </div>
+
+      <div class="input-container">
+        <input
+          type="text"
+          placeholder="Unesite maksimalnu kvadraturu (ostavite prazno da preskočite ovaj korak)"
+          id="maxKvadraturaInput"
+        />
+        <label for="maxKvadraturaInput"> Maksimalna kvadratura: </label>
+      </div>
+
+      <div class="input-container">
+        <input
+          type="text"
+          placeholder="Unesite minimalnu cijenu (ostavite prazno da preskočite ovaj korak)"
+          id="minCijenaInput"
+        />
+        <label for="minCijenaInput"> Minimalna cijena: </label>
+      </div>
+
+      <div class="input-container">
+        <input
+          type="text"
+          placeholder="Unesite maksimalnu cijenu (ostavite prazno da preskočite ovaj korak)"
+          id="maxCijenaInput"
+        />
+        <label for="maxCijenaInput"> Maksimalna cijena: </label>
+      </div>
+
+      <div class="button-container">
+        <button class="btn" id="submitButton2">
+          Izračunaj prosječnu kvadraturu
+        </button>
+      </div>
+
+      <h4 id="prosjecnaKvadraturaTitle">Prosječna kvadratura</h4>
+      <div class="input-container">
+        <input
+          type="text"
+          placeholder="Prosječna kvadratura"
+          id="prosjecnaKvadraturaOutput"
+          readonly
+        />
+      </div>
+
+      <h3 class="subtitle">
+        Računanje najvećeg odstupanja po kriteriju i svojstvu
+      </h3>
+
+      <div class="input-container">
+        <input
+          type="text"
+          placeholder="Unesite tip nekretnine (stan, kuća, poslovni prostor ili ostavite prazno da preskočite ovaj korak)"
+          id="tipNekretnineInput2"
+        />
+        <label for="tipNekretnineInput2"> Tip nekretnine: </label>
+      </div>
+
+      <div class="input-container">
+        <input
+          type="text"
+          placeholder="Unesite minimalnu kvadraturu (ostavite prazno da preskočite ovaj korak)"
+          id="minKvadraturaInput2"
+        />
+        <label for="minKvadraturaInput2"> Minimalna kvadratura: </label>
+      </div>
+
+      <div class="input-container">
+        <input
+          type="text"
+          placeholder="Unesite maksimalnu kvadraturu (ostavite prazno da preskočite ovaj korak)"
+          id="maxKvadraturaInput2"
+        />
+        <label for="maxKvadraturaInput2"> Maksimalna kvadratura: </label>
+      </div>
+
+      <div class="input-container">
+        <input
+          type="text"
+          placeholder="Unesite minimalnu cijenu (ostavite prazno da preskočite ovaj korak)"
+          id="minCijenaInput2"
+        />
+        <label for="minCijenaInput2"> Minimalna cijena: </label>
+      </div>
+
+      <div class="input-container">
+        <input
+          type="text"
+          placeholder="Unesite maksimalnu cijenu (ostavite prazno da preskočite ovaj korak)"
+          id="maxCijenaInput2"
+        />
+        <label for="maxCijenaInput2"> Maksimalna cijena: </label>
+      </div>
+
+      <div class="input-container">
+        <input
+          type="text"
+          placeholder="Naziv svojstva po kojem se traži odstupanje"
+          id="svojstvoInput"
+        />
+        <label for="svojstvoInput"> Naziv svojstva: </label>
+      </div>
+
+      <div class="button-container">
+        <button class="btn" id="submitButton3">Pronađi outlier-a</button>
+      </div>
+
+      <h4 id="outlierTitle">Outlier</h4>
+      <div class="input-container">
+        <textarea
+          placeholder="Outlier nekretnina"
+          id="outlierNekretnina"
+          readonly
+        ></textarea>
+      </div>
+
+      <h3 class="subtitle">Prikazivanje nekretnina za korisnike</h3>
+
+      <div class="input-container">
+        <input
+          type="text"
+          placeholder="Unesite id za pretraživanje nekretnina"
+          id="idInput"
+        />
+        <label for="idInput"> Unesite ID: </label>
+      </div>
+
+      <div class="button-container">
+        <button class="btn" id="submitButton4">Prikaži nekretnine</button>
+      </div>
+
+      <h4 id="idTitle">Korisničke nekretnine</h4>
+
+      <div class="input-container">
+        <textarea
+          placeholder="Korisničke nekretnine"
+          id="korisnikNekretnineOutput"
+          readonly
+        ></textarea>
+      </div>
+    </div>
+
+    <script src="../Scripts/SpisakNekretnina.js"></script>
+    <script src="../Scripts/StatistikaNekretnina.js"></script>
+    <script src="../Scripts/statistika.js"></script>
+  </body>
+</html>

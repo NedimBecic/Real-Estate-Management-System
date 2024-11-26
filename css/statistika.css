@@ -1,0 +1,143 @@
+body {
+  background-color: #fdf1d3;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+iframe {
+  border: none;
+  width: 100%;
+  height: 100%;
+}
+
+h1 {
+  text-align: center;
+  padding-bottom: 50px;
+}
+
+label {
+  font-size: 1rem;
+  margin-left: 2rem;
+  margin-top: 0.7rem;
+  display: block;
+  transition: all 0.3s;
+  transform: translateY(0rem);
+}
+
+input {
+  color: #333;
+  font-size: 1.2rem;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+  border-radius: 0.5rem;
+  background-color: white;
+  border: none;
+  width: 90%;
+  display: block;
+  border-bottom: 0.3rem solid transparent;
+  transition: all 0.3s;
+}
+
+input:focus {
+  outline: none;
+  border: 1px solid #333;
+}
+
+input:placeholder-shown + label {
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transform: translateY(-4rem);
+  transform: translateY(-4rem);
+}
+
+h4 {
+  display: block;
+  margin-top: 50px;
+  margin-left: 40px;
+  font-size: 1rem;
+}
+
+#placeholder-text {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.input-container {
+  margin: 0 10px 20px 10px;
+}
+
+.subtitle {
+  display: block;
+  margin-left: 40px;
+  margin-top: 50px;
+  font-size: 1.5rem;
+}
+
+.content-container {
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 0 20px;
+}
+
+.input-container {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.button-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.btn {
+  font-size: 1rem;
+  padding: 10px 20px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #4f4d4d;
+}
+
+.histogram-container {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin-bottom: 100px;
+}
+
+.histogram-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  margin-bottom: 50px !important;
+}
+
+textarea {
+  font-family: Arial, sans-serif;
+  color: #333;
+  font-size: 1.2rem;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+  border-radius: 0.5rem;
+  background-color: white;
+  border: none;
+  width: 90%;
+  display: block;
+  border-bottom: 0.3rem solid transparent;
+  transition: all 0.3s;
+  resize: none; 
+  overflow: hidden; 
+}
+
+
+textarea:focus {
+  outline: none;
+  border: 1px solid #333;
+}

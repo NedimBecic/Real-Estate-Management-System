@@ -205,6 +205,6 @@ let nekretnine = SpisakNekretnina();
 nekretnine.init(listaNekretnina, listaKorisnika);
 
 //pozivanje funkcije
-spojiNekretnine(divStan, nekretnine, "Stan");
+spojiNekretnine(divStan, nekretnine, " ");
 spojiNekretnine(divKuca, nekretnine, "Kuća");
 spojiNekretnine(divPp, nekretnine, "Poslovni prostor");

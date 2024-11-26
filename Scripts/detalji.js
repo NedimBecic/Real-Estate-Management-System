@@ -1,4 +1,6 @@
-var carousel;
+//treba promijeniti klasu carousel-prikaz da pokazuje kako treba elemente kada je screen size veci od 599px
+
+let carousel;
 
 window.onload = function() {
     var glavniElement = document.getElementById("carousel-prikaz");
@@ -17,3 +19,4 @@ function carouselNext() {
     carousel.fnDesno();
   }
 }
+

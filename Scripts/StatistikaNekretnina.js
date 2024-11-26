@@ -1,14 +1,12 @@
 let StatistikaNekretnina = function () {
-  let SpisakNekretnina = SpisakNekretnina();
-  let listaNekretnina = [];
-  let listaKorisnika = [];
+  let spisakNekretnina = SpisakNekretnina();
 
   let init = function () {
-    SpisakNekretnina.init(listaNekretnina, listaKorisnika);
+    spisakNekretnina.init(listaNekretnina, listaKorisnika);
   };
 
-  let projecnaKvadratura = function (kriterij) {
-    let listaNekretninaFilter = SpisakNekretnina.filtrirajNekretnine(kriterij);
+  let prosjecnaKvadratura = function (kriterij) {
+    let listaNekretninaFilter = spisakNekretnina.filtrirajNekretnine(kriterij);
     if (listaNekretninaFilter.length == 0) return 0;
     let sum = 0;
     for (let i = 0; i < listaNekretninaFilter.length; i++) {
@@ -18,7 +16,7 @@ let StatistikaNekretnina = function () {
   };
 
   let outlier = function (kriterij, nazivSvojstva) {
-    let filteredNekretnine = SpisakNekretnina.filtrirajNekretnine(kriterij);
+    let filteredNekretnine = spisakNekretnina.filtrirajNekretnine(kriterij);
     if (filteredNekretnine.length == 0) {
       return null;
     }
@@ -49,24 +47,31 @@ let StatistikaNekretnina = function () {
     if (!korisnik) {
       return null;
     }
-    const filteredNekretnine = listaNekretnina.filter((nekretnina) =>
-      nekretnina.upiti.some((upit) => upit.korisnik_id === korisnik.korisnik_id)
-    );
+    let filteredNekretnine = [];
+    let arr = spisakNekretnina.listaNekretnina;
+    for (let i = 0; i < arr.length; i++) {
+      let upiti = arr[i].upiti;
+      for (let j = 0; j < upiti.length; j++) {
+        if (upiti[j].korisnik_id === korisnik.id) {
+          filteredNekretnine.push(arr[i]);
+        }
+      }
+    }
     filteredNekretnine.sort((a, b) => a.upiti.length - b.upiti.length);
     return filteredNekretnine;
   };
 
-  let histogramCijena = function (periodi, rasponiCijena) {
+  function histogramCijena(periodi, rasponiCijena) {
     let histogramData = [];
     for (let i = 0; i < periodi.length; i++) {
       for (let j = 0; j < rasponiCijena.length; j++) {
         let count = 0;
         for (let k = 0; k < listaNekretnina.length; k++) {
-          let year = new Date(listaNekretnina[k].datum_objave).getFullYear();
+          let year = parseInt(listaNekretnina[k].datum_objave.split(".")[2]);
           if (year > periodi[i].od && year <= periodi[i].do) {
             if (
-              listaNekretnina[k].cijena > rasponiCijena[j].od &&
-              listaNekretnina[k] <= rasponiCijena[j].do
+              listaNekretnina[k].cijena > parseInt(rasponiCijena[j].od) &&
+              listaNekretnina[k].cijena <= parseInt(rasponiCijena[j].do)
             ) {
               count++;
             }
@@ -80,26 +85,12 @@ let StatistikaNekretnina = function () {
       }
     }
     return histogramData;
-  };
+  }
   return {
     init,
-    projecnaKvadratura,
+    prosjecnaKvadratura,
     outlier,
     mojeNekretnine,
     histogramCijena,
   };
 };
-
-let periodi = [
-  { od: 2000, do: 2010 },
-  { od: 2010, do: 2024 },
-];
-
-let rasponiCijena = [
-  { od: 10000, do: 150000 },
-  { od: 150000, do: 1000000 },
-];
-
-let result = histogramCijena(periodi, rasponiCijena);
-console.log(result);
-
