@@ -110,6 +110,11 @@ iframe {
   }
 }
 
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
 .carousel-button {
   width: 25px;
   height: 25px;
