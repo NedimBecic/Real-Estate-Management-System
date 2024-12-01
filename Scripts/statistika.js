@@ -285,74 +285,102 @@ function crtajHistogram(periodi, rasponiCijena) {
     placeholderText.style.display = "none";
   }
 
+  const histogramContainer = document.querySelector(".histogram-container");
+  histogramContainer.innerHTML = "";
+
   const histogramData = statistika.histogramCijena(periodi, rasponiCijena);
 
-  const labels = rasponiCijena.map((raspon) => `${raspon.od} - ${raspon.do}`);
+  rasponiCijena.forEach((priceRange, j) => {
+    const canvasContainer = document.createElement("div");
+    canvasContainer.style.display = "inline-block";
+    canvasContainer.style.width = "48%";
+    canvasContainer.style.margin = "10px";
 
-  const datasets = periodi.map((period, i) => {
-    const dataForPeriod = rasponiCijena.map((_, j) => {
+    const canvas = document.createElement("canvas");
+    canvas.className = "histogram-canvas";
+    canvasContainer.appendChild(canvas);
+    histogramContainer.appendChild(canvasContainer);
+
+    const ctx = canvas.getContext("2d");
+
+    const labels = periodi.map((period) => `${period.od} - ${period.do}`);
+
+    const dataForGraph = periodi.map((_, i) => {
       const entry = histogramData.find(
         (data) => data.indeksPerioda === i && data.indeksRasporedaCijena === j
       );
       return entry ? entry.brojNekretnina : 0;
     });
 
-    return {
-      label: `Period ${period.od}-${period.do}`,
-      data: dataForPeriod,
-      borderWidth: 1,
+    const colorPalette = [
+      "rgba(255, 99, 132, 0.6)",
+      "rgba(54, 162, 235, 0.6)",
+      "rgba(75, 192, 192, 0.6)",
+      "rgba(255, 206, 86, 0.6)",
+      "rgba(153, 102, 255, 0.6)",
+      "rgba(255, 159, 64, 0.6)",
+    ];
+
+    const datasets = [
+      {
+        label: `Cijena ${priceRange.od} - ${priceRange.do}`,
+        data: dataForGraph,
+        borderWidth: 1,
+        backgroundColor: periodi.map(
+          (_, i) => colorPalette[i % colorPalette.length]
+        ),
+      },
+    ];
+
+    const plugin = {
+      id: "customCanvasBackgroundColor",
+      beforeDraw: (chart, args, options) => {
+        const { ctx } = chart;
+        ctx.save();
+        ctx.globalCompositeOperation = "destination-over";
+        ctx.fillStyle = options.color || "#FFFFFF";
+        ctx.fillRect(0, 0, chart.width, chart.height);
+        ctx.restore();
+      },
     };
-  });
 
-  const canvas = document.createElement("canvas");
-  canvas.className = "histogram-canvas";
-
-  document.querySelector(".histogram-container").appendChild(canvas);
-
-  const ctx = canvas.getContext("2d");
-
-  const plugin = {
-    id: "customCanvasBackgroundColor",
-    beforeDraw: (chart, args, options) => {
-      const { ctx } = chart;
-      ctx.save();
-      ctx.globalCompositeOperation = "destination-over";
-      ctx.fillStyle = options.color || "#99ffff";
-      ctx.fillRect(0, 0, chart.width, chart.height);
-      ctx.restore();
-    },
-  };
-
-  new Chart(ctx, {
-    type: "bar",
-    data: {
-      labels: labels,
-      datasets: datasets,
-    },
-    options: {
-      layout: {
-        padding: 10,
+    new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: labels,
+        datasets: datasets,
       },
-      scales: {
-        x: {
-          grid: {
-            display: false,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: {
+          padding: 10,
+        },
+        scales: {
+          x: {
+            grid: {
+              display: false,
+            },
+          },
+          y: {
+            grid: {
+              display: false,
+            },
+            beginAtZero: true,
           },
         },
-        y: {
-          grid: {
-            display: false,
+        plugins: {
+          customCanvasBackgroundColor: {
+            color: "#FFFFFF",
           },
-          beginAtZero: true,
+          legend: {
+            display: true,
+            position: "top",
+          },
         },
       },
-      plugins: {
-        customCanvasBackgroundColor: {
-          color: "#FFFFFF",
-        },
-      },
-    },
-    plugins: [plugin],
+      plugins: [plugin],
+    });
   });
 }
 
@@ -482,6 +510,20 @@ function autoResizeTextarea(textarea) {
   textarea.style.height = textarea.scrollHeight + "px";
 }
 
+const nekretninaTemplate = {
+  id: null,
+  tip_nekretnine: "",
+  naziv: "",
+  kvadratura: null,
+  cijena: null,
+  tip_grijanja: "",
+  lokacija: "",
+  godina_izgradnje: null,
+  datum_objave: "",
+  opis: "",
+  upiti: [],
+};
+
 document.getElementById("submitButton3").addEventListener("click", function () {
   const tipNekretnineInput2 = document.getElementById("tipNekretnineInput2");
   const minKvadraturaInput2 = document.getElementById("minKvadraturaInput2");
@@ -489,6 +531,12 @@ document.getElementById("submitButton3").addEventListener("click", function () {
   const minCijenaInput2 = document.getElementById("minCijenaInput2");
   const maxCijenaInput2 = document.getElementById("maxCijenaInput2");
   const nazivSvojstvaInput = document.getElementById("svojstvoInput");
+  const nazivInput = document.getElementById("nazivInput");
+  const tipGrijanjaInput = document.getElementById("tipGrijanjaInput");
+  const lokacijaInput = document.getElementById("lokacijaInput");
+  const godinaIzgradnjeInput = document.getElementById("godinaIzgradnjeInput");
+  const datumObjaveInput = document.getElementById("datumObjaveInput");
+  const opisInput = document.getElementById("opisInput");
 
   const validatedInputs = validateInputs2(
     tipNekretnineInput2.value,
@@ -497,20 +545,32 @@ document.getElementById("submitButton3").addEventListener("click", function () {
     minCijenaInput2.value,
     maxCijenaInput2.value,
     nazivSvojstvaInput.value,
-    true
+    true,
+    nazivInput.value,
+    tipGrijanjaInput.value,
+    lokacijaInput.value,
+    godinaIzgradnjeInput.value,
+    datumObjaveInput.value,
+    opisInput.value
   );
 
   if (!validatedInputs) {
     return;
   }
 
-  var {
+  const {
     tip_nekretnine,
     min_kvadratura,
     max_kvadratura,
     min_cijena,
     max_cijena,
     naziv_svojstva,
+    naziv,
+    tip_grijanja,
+    lokacija,
+    godina_izgradnje,
+    datum_objave,
+    opis,
   } = validatedInputs;
 
   const kriterij = {
@@ -519,27 +579,39 @@ document.getElementById("submitButton3").addEventListener("click", function () {
     max_kvadratura: max_kvadratura,
     min_cijena: min_cijena,
     max_cijena: max_cijena,
+    naziv: naziv,
+    tip_grijanja: tip_grijanja,
+    lokacija: lokacija,
+    godina_izgradnje: godina_izgradnje,
+    datum_objave: datum_objave,
+    opis: opis,
   };
 
   const outlier = statistika.outlier(kriterij, naziv_svojstva);
 
   const outlierNektretnina = document.getElementById("outlierNekretnina");
-  outlierNektretnina.value = parseNekretnina(outlier);
+
+  if(outlier) {
+    outlierNektretnina.value = parseNekretnina(outlier);
+  } else {
+    outlierNektretnina.value = "Nije pronađena outlier nekretnina."
+  }
+
 
   autoResizeTextarea(outlierNektretnina);
 
-  if (isNaN(kriterij.min_kvadratura)) {
-    kriterij.min_kvadratura = "0";
-  }
-  if (isNaN(kriterij.max_kvadratura)) {
-    kriterij.max_kvadratura = "0";
-  }
-  if (isNaN(kriterij.min_cijena)) {
-    kriterij.min_cijena = "0";
-  }
-  if (isNaN(kriterij.max_cijena)) {
-    kriterij.max_cijena = "0";
-  }
+  // if (isNaN(kriterij.min_kvadratura)) {
+  //   kriterij.min_kvadratura = "0";
+  // }
+  // if (isNaN(kriterij.max_kvadratura)) {
+  //   kriterij.max_kvadratura = "0";
+  // }
+  // if (isNaN(kriterij.min_cijena)) {
+  //   kriterij.min_cijena = "0";
+  // }
+  // if (isNaN(kriterij.max_cijena)) {
+  //   kriterij.max_cijena = "0";
+  // }
 
   const outlierTitle = document.getElementById("outlierTitle");
   outlierTitle.innerHTML = "Outlier (".concat(
@@ -563,17 +635,25 @@ document.getElementById("submitButton3").addEventListener("click", function () {
   minCijenaInput2.value = "";
   maxCijenaInput2.value = "";
   nazivSvojstvaInput.value = "";
+  nazivInput.value = "";
+  tipGrijanjaInput.value = "";
+  lokacijaInput.value = "";
+  godinaIzgradnjeInput.value = "";
+  datumObjaveInput.value = "";
+  opisInput.value = "";
 });
 
 document.getElementById("submitButton4").addEventListener("click", function () {
-  const idInput = document.getElementById("idInput");
+  const usernameInput = document.getElementById("usernameInput");
   const korisnikNekretnineOutput = document.getElementById(
     "korisnikNekretnineOutput"
   );
 
   const korisnik = {
-    id: parseInt(idInput.value),
+    username: usernameInput.value,
   };
+
+  console.log(korisnik);
 
   const nekretnine = statistika.mojeNekretnine(korisnik);
 
@@ -602,7 +682,13 @@ function validateInputs2(
   minCijena,
   maxCijena,
   nazivSvojstva,
-  flag
+  flag,
+  naziv,
+  tipGrijanja,
+  lokacija,
+  godinaIzgradnje,
+  datumObjave,
+  opis
 ) {
   tipNekretnine = tipNekretnine.trim();
   const validTipovi = ["Stan", "Kuća", "Poslovni prostor"];
@@ -618,39 +704,85 @@ function validateInputs2(
       return false;
     }
   }
-  if (minKvadratura) {
-    if (isNaN(minKvadratura) || minKvadratura <= 0) {
-      alert("Minimalna kvadratura mora biti broj veći od 0.");
-      return false;
-    }
+
+  if (minKvadratura && (isNaN(minKvadratura) || minKvadratura <= 0)) {
+    alert("Minimalna kvadratura mora biti broj veći od 0.");
+    return false;
   }
-  if (maxKvadratura) {
-    if (isNaN(maxKvadratura) || maxKvadratura <= 0) {
-      alert("Maksimalna kvadratura mora biti broj veći od 0.");
-      return false;
-    }
+
+  if (maxKvadratura && (isNaN(maxKvadratura) || maxKvadratura <= 0)) {
+    alert("Maksimalna kvadratura mora biti broj veći od 0.");
+    return false;
   }
+
   if (minKvadratura && maxKvadratura && minKvadratura > maxKvadratura) {
     alert("Minimalna kvadratura ne može biti veća od maksimalne kvadrature.");
     return false;
   }
 
-  if (minCijena) {
-    if (isNaN(minCijena) || minCijena <= 0) {
-      alert("Minimalna cijena mora biti broj veći od 0.");
-      return false;
-    }
+  if (minCijena && (isNaN(minCijena) || minCijena <= 0)) {
+    alert("Minimalna cijena mora biti broj veći od 0.");
+    return false;
   }
-  if (maxCijena) {
-    if (isNaN(maxCijena) || maxCijena <= 0) {
-      alert("Maksimalna cijena mora biti broj veći od 0.");
-      return false;
-    }
+
+  if (maxCijena && (isNaN(maxCijena) || maxCijena <= 0)) {
+    alert("Maksimalna cijena mora biti broj veći od 0.");
+    return false;
   }
+
   if (minCijena && maxCijena && minCijena > maxCijena) {
     alert("Minimalna cijena ne može biti veća od maksimalne cijene.");
     return false;
   }
+
+  if (godinaIzgradnje) {
+    const parsedGodinaIzgradnje = parseInt(godinaIzgradnje, 10);
+    if (
+      isNaN(parsedGodinaIzgradnje) ||
+      parsedGodinaIzgradnje < 1900 ||
+      parsedGodinaIzgradnje > 2024
+    ) {
+      alert(
+        "Godina izgradnje mora biti broj između 1900 i 2024 (ili ostavite prazno)."
+      );
+      return false;
+    }
+    godinaIzgradnje = parsedGodinaIzgradnje; 
+  }
+
+
+  if (datumObjave) {
+    const dateRegex = /^(\d{2})\.(\d{2})\.(\d{4})\.$/;
+    const match = datumObjave.match(dateRegex);
+
+    if (!match) {
+      alert("Datum objave mora biti u formatu DD.MM.YYYY.");
+      return false;
+    }
+
+    const day = parseInt(match[1], 10);
+    const month = parseInt(match[2], 10);
+    const year = parseInt(match[3], 10);
+
+    if (year < 1900 || year > 2024) {
+      alert("Godina u datumu objave mora biti između 1900 i 2024.");
+      return false;
+    }
+
+    if (month < 1 || month > 12) {
+      alert("Mjesec u datumu objave mora biti između 1 i 12.");
+      return false;
+    }
+
+    const daysInMonth = new Date(year, month, 0).getDate();
+    if (day < 1 || day > daysInMonth) {
+      alert(
+        `Dan u datumu objave mora biti između 1 i ${daysInMonth} za mjesec ${month}.`
+      );
+      return false;
+    }
+  }
+
 
   if (flag) {
     const validNazivi = [
@@ -674,6 +806,7 @@ function validateInputs2(
       );
       return false;
     }
+
     return {
       tip_nekretnine: tipNekretnine,
       min_kvadratura: parseInt(minKvadratura),
@@ -681,6 +814,12 @@ function validateInputs2(
       min_cijena: parseInt(minCijena),
       max_cijena: parseInt(maxCijena),
       naziv_svojstva: nazivSvojstva,
+      naziv: naziv.trim(),
+      tip_grijanja: tipGrijanja.trim(),
+      lokacija: lokacija.trim(),
+      godina_izgradnje: godinaIzgradnje,
+      datum_objave: datumObjave.trim(),
+      opis: opis.trim(),
     };
   } else {
     return {

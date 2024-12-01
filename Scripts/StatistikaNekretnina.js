@@ -16,19 +16,19 @@ let StatistikaNekretnina = function () {
   };
 
   let outlier = function (kriterij, nazivSvojstva) {
+    let sum = 0;
+    for (let i = 0; i < listaNekretnina.length; i++) {
+      if (typeof listaNekretnina[i][nazivSvojstva] !== "number") {
+        return null;
+      }
+      sum += listaNekretnina[i][nazivSvojstva];
+    }
+    let average = sum / listaNekretnina.length;
+
     let filteredNekretnine = spisakNekretnina.filtrirajNekretnine(kriterij);
     if (filteredNekretnine.length == 0) {
       return null;
     }
-
-    let sum = 0;
-    for (let i = 0; i < filteredNekretnine.length; i++) {
-      if (typeof filteredNekretnine[i][nazivSvojstva] !== "number") {
-        return null;
-      }
-      sum += filteredNekretnine[i][nazivSvojstva];
-    }
-    let average = sum / filteredNekretnine.length;
 
     let max = -Infinity;
     let outlier = null;
@@ -45,14 +45,31 @@ let StatistikaNekretnina = function () {
 
   let mojeNekretnine = function (korisnik) {
     if (!korisnik) {
-      return null;
+      return null; 
     }
+
+    let id;
+    
+    if (korisnik.id !== undefined && korisnik.id !== null) {
+      id = korisnik.id;
+    } else if (korisnik.username) {
+      let getKorisnik = listaKorisnika.find(
+        (user) => user.username === korisnik.username
+      );
+      if (!getKorisnik) {
+        return null; 
+      }
+      id = getKorisnik.id;
+    } else {
+      return null; 
+    }
+
     let filteredNekretnine = [];
     let arr = spisakNekretnina.listaNekretnina;
     for (let i = 0; i < arr.length; i++) {
       let upiti = arr[i].upiti;
       for (let j = 0; j < upiti.length; j++) {
-        if (upiti[j].korisnik_id === korisnik.id) {
+        if (upiti[j].korisnik_id === id) {
           filteredNekretnine.push(arr[i]);
         }
       }
