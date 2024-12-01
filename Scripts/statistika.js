@@ -591,12 +591,11 @@ document.getElementById("submitButton3").addEventListener("click", function () {
 
   const outlierNektretnina = document.getElementById("outlierNekretnina");
 
-  if(outlier) {
+  if (outlier) {
     outlierNektretnina.value = parseNekretnina(outlier);
   } else {
-    outlierNektretnina.value = "Nije pronađena outlier nekretnina."
+    outlierNektretnina.value = "Nije pronađena outlier nekretnina.";
   }
-
 
   autoResizeTextarea(outlierNektretnina);
 
@@ -653,13 +652,12 @@ document.getElementById("submitButton4").addEventListener("click", function () {
     username: usernameInput.value,
   };
 
-  console.log(korisnik);
-
   const nekretnine = statistika.mojeNekretnine(korisnik);
 
-  if (!nekretnine.length) {
-    korisnikNekretnineOutput.value =
-      "Nisu pronađene nekretnine koje sadrže upit sa unesenim korisničkim id-em.";
+  if (!nekretnine || !nekretnine.length) {
+    korisnikNekretnineOutput.value = `Nisu pronađene nekretnine koje sadrže upit za korisnika: ${usernameInput.value}.`;
+    autoResizeTextarea(korisnikNekretnineOutput);
+    usernameInput.value = "";
     return;
   }
 
@@ -673,6 +671,8 @@ document.getElementById("submitButton4").addEventListener("click", function () {
   korisnikNekretnineOutput.value = nekretnineOutput.join("");
 
   autoResizeTextarea(korisnikNekretnineOutput);
+
+  usernameInput.value = "";
 });
 
 function validateInputs2(
@@ -747,9 +747,8 @@ function validateInputs2(
       );
       return false;
     }
-    godinaIzgradnje = parsedGodinaIzgradnje; 
+    godinaIzgradnje = parsedGodinaIzgradnje;
   }
-
 
   if (datumObjave) {
     const dateRegex = /^(\d{2})\.(\d{2})\.(\d{4})\.$/;
@@ -782,7 +781,6 @@ function validateInputs2(
       return false;
     }
   }
-
 
   if (flag) {
     const validNazivi = [
