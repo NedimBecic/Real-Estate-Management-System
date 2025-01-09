@@ -102,7 +102,7 @@ h4 {
 }
 
 .btn:hover {
-    background-color: #4f4d4d;
+  background-color: #4f4d4d;
 }
 
 .histogram-container {
@@ -115,7 +115,7 @@ h4 {
 
 .histogram-container canvas {
   width: 100% !important;
-  height: 300px !important; 
+  height: 300px !important;
   margin-bottom: 20px !important;
 }
 
@@ -132,10 +132,9 @@ textarea {
   display: block;
   border-bottom: 0.3rem solid transparent;
   transition: all 0.3s;
-  resize: none; 
-  overflow: hidden; 
+  resize: none;
+  overflow: hidden;
 }
-
 
 textarea:focus {
   outline: none;
