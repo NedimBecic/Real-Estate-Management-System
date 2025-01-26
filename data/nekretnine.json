@@ -30,6 +30,18 @@
       {
         "korisnik_id": 1,
         "tekst_upita": "Nullam eu pede mollis pretium. 5"
+      },
+      {
+        "korisnik_id": 3,
+        "tekst_upita": "Test upit 2"
+      },
+      {
+        "korisnik_id": 3,
+        "tekst_upita": "Test upit 1"
+      },
+      {
+        "korisnik_id": 3,
+        "tekst_upita": "Test upit 3"
       }
     ]
   },
