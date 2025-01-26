@@ -129,7 +129,11 @@ app.post("/login", async (req, res) => {
 
     let found = false;
 
-    if(korisnik && korisnik.username == "test" && korisnik.password=="test") {
+    if (
+      korisnik &&
+      korisnik.username == "test" &&
+      korisnik.password == "test"
+    ) {
       req.session.username = korisnik.username;
       found = true;
     } else if (korisnik) {
@@ -486,6 +490,46 @@ app.get("/next/upiti/nekretnina:id", async (req, res) => {
   }
 });
 
+app.get("/nekretnina/:id/interesovanja", async (req, res) => {
+  try {
+    const nekretnina = await db.Nekretnina.findByPk(req.params.id);
+    if (!nekretnina) {
+      return res.status(404).json({ greska: "Nekretnina nije pronađena" });
+    }
+
+    const interesovanja = await nekretnina.getInteresovanja();
+
+    const loggedInUser = req.session.username
+      ? await Korisnik.findOne({ where: { username: req.session.username } })
+      : null;
+
+    const filteredInteresovanja = interesovanja.map((item) => {
+      const data = item.toJSON();
+
+      if (item instanceof Ponuda) {
+        if (loggedInUser?.admin) {
+          return data;
+        }
+
+        if (
+          !loggedInUser ||
+          (loggedInUser.id !== data.KorisnikId &&
+            !data.vezanePonude?.some((p) => p.KorisnikId === loggedInUser.id))
+        ) {
+          delete data.cijenaPonude;
+        }
+      }
+
+      return data;
+    });
+
+    res.json(filteredInteresovanja);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ greska: "Greška pri dohvatanju interesovanja" });
+  }
+});
+
 /* ----------------- MARKETING ROUTES ----------------- */
 
 // Route that increments value of pretrage for one based on list of ids in nizNekretnina
@@ -598,14 +642,35 @@ app.post("/marketing/osvjezi/klikovi", async (req, res) => {
   }
 });
 
-db.initDatabase()
-  .then(() => db.sequelize.sync({ force: true }))
-  .then(() => dataMigration())
-  .then(() => {
+const initializeApp = async () => {
+  try {
+    await db.sequelize.sync({ force: true });
+
+    await db.Korisnik.create({
+      ime: "Admin",
+      prezime: "Admin",
+      username: "admin",
+      password: "admin",
+      admin: true,
+    });
+
+    await db.Korisnik.create({
+      ime: "User",
+      prezime: "User",
+      username: "user",
+      password: "user",
+      admin: false,
+    });
+
+    await dataMigration();
+
     app.listen(PORT, () => {
       console.log(`Server is running on http://localhost:${PORT}`);
     });
-  })
-  .catch((err) => {
+  } catch (err) {
     console.error("Failed to initialize database:", err);
-  });
+    process.exit(1);
+  }
+};
+
+initializeApp();

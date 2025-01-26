@@ -7,10 +7,9 @@ async function dataMigration() {
   try {
 
     await db.sequelize.sync({ force: true });
-    // Disable foreign key checks to allow data insertion
+
     await db.sequelize.query("SET FOREIGN_KEY_CHECKS = 0");
 
-    // Read JSON files
     const korisnici = JSON.parse(
       await fs.readFile(path.join(__dirname, "data", "korisnici.json"), "utf-8")
     );
@@ -21,23 +20,20 @@ async function dataMigration() {
       )
     );
 
-    // Truncate existing tables to prevent duplicate entries
     await db.Upit.destroy({ where: {} });
     await db.Nekretnina.destroy({ where: {} });
     await db.Korisnik.destroy({ where: {} });
 
-    // Migrate Users
     for (const korisnik of korisnici) {
       await db.Korisnik.create({
         ime: korisnik.ime,
         prezime: korisnik.prezime,
         username: korisnik.username,
-        password: korisnik.password, // Note: Existing hashed passwords will be used
-        admin: false, // Default to false unless specified
+        password: korisnik.password, 
+        admin: false,
       });
     }
 
-    // Migrate Properties (Nekretnine)
     for (const nekretnina of nekretnine) {
       const createdNekretnina = await db.Nekretnina.create({
         tip_nekretnine: nekretnina.tip_nekretnine,
@@ -53,9 +49,7 @@ async function dataMigration() {
         opis: nekretnina.opis,
       });
 
-      // Migrate Upiti (Inquiries)
       for (const upit of nekretnina.upiti) {
-        // Find the corresponding user
         const user = await db.Korisnik.findOne({
           where: { id: upit.korisnik_id },
         });
@@ -70,13 +64,11 @@ async function dataMigration() {
       }
     }
 
-    // Re-enable foreign key checks
     await db.sequelize.query("SET FOREIGN_KEY_CHECKS = 1");
 
     console.log("Data migration completed successfully!");
   } catch (error) {
     console.error("Error during data migration:", error);
-    // Re-enable foreign key checks in case of error
     await db.sequelize.query("SET FOREIGN_KEY_CHECKS = 1");
   }
 }

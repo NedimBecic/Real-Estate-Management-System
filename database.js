@@ -4,6 +4,9 @@ const sequelize = new Sequelize("wt24", "root", "password", {
   host: "localhost",
   dialect: "mysql",
   logging: false,
+  define: {
+    freezeTableName: true,
+  },
 });
 
 const Korisnik = sequelize.define("Korisnik", {
@@ -88,7 +91,7 @@ const Upit = sequelize.define("Upit", {
   tekst: {
     type: DataTypes.TEXT,
     allowNull: false,
-  }
+  },
 });
 
 const Zahtjev = sequelize.define("Zahtjev", {
@@ -206,14 +209,4 @@ module.exports = {
   initDatabase,
 };
 
-const seedData = async () => {
-  const nekretninePodaci = JSON.parse(
-    await fs.readFile(path.join(__dirname, "data", "nekretnine.json"), "utf-8")
-  );
-  await Nekretnina.bulkCreate(nekretninePodaci);
 
-  const korisniciPodaci = JSON.parse(
-    await fs.readFile(path.join(__dirname, "data", "korisnici.json"), "utf-8")
-  );
-  await Korisnik.bulkCreate(korisniciPodaci);
-};
