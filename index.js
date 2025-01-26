@@ -129,14 +129,7 @@ app.post("/login", async (req, res) => {
 
     let found = false;
 
-    if (
-      korisnik &&
-      korisnik.username == "test" &&
-      korisnik.password == "test"
-    ) {
-      req.session.username = korisnik.username;
-      found = true;
-    } else if (korisnik) {
+    if (korisnik) {
       const isPasswordMatched = await bcrypt.compare(
         jsonObj.password,
         korisnik.password
@@ -498,35 +491,232 @@ app.get("/nekretnina/:id/interesovanja", async (req, res) => {
     }
 
     const interesovanja = await nekretnina.getInteresovanja();
-
     const loggedInUser = req.session.username
-      ? await Korisnik.findOne({ where: { username: req.session.username } })
+      ? await db.Korisnik.findOne({ where: { username: req.session.username } })
       : null;
 
-    const filteredInteresovanja = interesovanja.map((item) => {
-      const data = item.toJSON();
+    if (loggedInUser?.admin) {
+      return res.json(interesovanja);
+    }
 
-      if (item instanceof Ponuda) {
-        if (loggedInUser?.admin) {
-          return data;
+    const filteredInteresovanja = interesovanja
+      .filter((item) => {
+        if (item instanceof db.Zahtjev) {
+          return loggedInUser?.id === item.KorisnikId;
+        }
+        return true;
+      })
+      .map((item) => {
+        let data = item.toJSON();
+
+        if (item instanceof db.Ponuda) {
+          delete data.cijenaPonude;
+          delete data.datumPonude;
+          delete data.createdAt;
+          delete data.updatedAt;
+
+          if (
+            loggedInUser?.id === data.KorisnikId ||
+            data.vezanePonude?.some((p) => p.KorisnikId === loggedInUser?.id)
+          ) {
+            data.cijenaPonude = item.cijenaPonude;
+          }
         }
 
         if (
-          !loggedInUser ||
-          (loggedInUser.id !== data.KorisnikId &&
-            !data.vezanePonude?.some((p) => p.KorisnikId === loggedInUser.id))
+          item instanceof db.Zahtjev &&
+          loggedInUser?.id === data.KorisnikId
         ) {
-          delete data.cijenaPonude;
+          return data;
+        } else if (item instanceof db.Zahtjev) {
+          delete data.trazeniDatum;
+          delete data.createdAt;
+          delete data.updatedAt;
         }
-      }
 
-      return data;
-    });
+        if (data.Korisnik) {
+          data.Korisnik = {
+            id: data.Korisnik.id,
+            username: data.Korisnik.username,
+          };
+        }
+
+        return data;
+      });
 
     res.json(filteredInteresovanja);
   } catch (error) {
     console.error(error);
     res.status(500).json({ greska: "Greška pri dohvatanju interesovanja" });
+  }
+});
+
+app.post("/nekretnina/:id/ponuda", async (req, res) => {
+  try {
+    if (!req.session.username) {
+      return res.status(401).json({ greska: "Neautorizovan pristup" });
+    }
+
+    const { tekst, ponudaCijene, datumPonude, idVezanePonude, odbijenaPonuda } =
+      req.body;
+    const user = await db.Korisnik.findOne({
+      where: { username: req.session.username },
+    });
+    const nekretnina = await db.Nekretnina.findByPk(req.params.id);
+
+    if (!nekretnina) {
+      return res.status(404).json({ greska: "Nekretnina nije pronađena" });
+    }
+
+    if (idVezanePonude) {
+      const vezanaPonuda = await db.Ponuda.findByPk(idVezanePonude, {
+        include: [{ model: db.Ponuda, as: "vezanePonude" }],
+      });
+
+      if (!vezanaPonuda) {
+        return res.status(404).json({ greska: "Vezana ponuda nije pronađena" });
+      }
+
+      if (
+        vezanaPonuda.odbijenaPonuda ||
+        vezanaPonuda.vezanePonude?.some((p) => p.odbijenaPonuda)
+      ) {
+        return res
+          .status(400)
+          .json({ greska: "Ne možete dodati ponudu na odbijeni lanac ponuda" });
+      }
+
+      if (!user.admin && user.id !== vezanaPonuda.KorisnikId) {
+        return res
+          .status(403)
+          .json({ greska: "Nemate pravo dodati ponudu na tuđu ponudu" });
+      }
+    }
+
+    const novaPonuda = await db.Ponuda.create({
+      tekst,
+      cijenaPonude: ponudaCijene,
+      datumPonude,
+      odbijenaPonuda,
+      KorisnikId: user.id,
+      NekretninaId: nekretnina.id,
+      vezanaPonudaId: idVezanePonude,
+    });
+
+    res.status(201).json(novaPonuda);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ greska: "Greška pri kreiranju ponude" });
+  }
+});
+
+app.post("/nekretnina/:id/zahtjev", async (req, res) => {
+  if (!req.session.username) {
+    return res.status(401).json({ greska: "Neautorizovan pristup" });
+  }
+
+  const { tekst, trazeniDatum } = req.body;
+  const nekretninaId = parseInt(req.params.id);
+
+  try {
+    const user = await db.Korisnik.findOne({
+      where: { username: req.session.username },
+    });
+
+    const nekretnina = await db.Nekretnina.findByPk(nekretninaId);
+    if (!nekretnina) {
+      return res.status(404).json({
+        greska: `Nekretnina sa id-em ${nekretninaId} ne postoji`,
+      });
+    }
+
+    const requestDate = new Date(trazeniDatum);
+    if (isNaN(requestDate.getTime())) {
+      return res.status(404).json({
+        greska: "Neispravan format datuma",
+      });
+    }
+
+    const currentDate = new Date();
+
+    requestDate.setHours(0, 0, 0, 0);
+    currentDate.setHours(0, 0, 0, 0);
+
+    if (requestDate < currentDate) {
+      return res.status(404).json({
+        greska: "Traženi datum ne može biti u prošlosti",
+      });
+    }
+
+    const zahtjev = await db.Zahtjev.create({
+      tekst: tekst,
+      trazeniDatum: requestDate,
+      KorisnikId: user.id,
+      NekretninaId: nekretninaId,
+    });
+
+    res.status(200).json({
+      poruka: "Zahtjev uspješno kreiran",
+    });
+  } catch (error) {
+    console.error("Error creating zahtjev:", error);
+    res.status(500).json({ greska: "Internal Server Error" });
+  }
+});
+
+app.put("/nekretnina/:id/zahtjev/:zid", async (req, res) => {
+  if (!req.session.username) {
+    return res.status(401).json({ greska: "Neautorizovan pristup" });
+  }
+
+  const { odobren, addToTekst } = req.body;
+  const nekretninaId = parseInt(req.params.id);
+  const zahtjevId = parseInt(req.params.zid);
+
+  try {
+    const admin = await db.Korisnik.findOne({
+      where: {
+        username: req.session.username,
+        admin: true,
+      },
+    });
+
+    if (!admin) {
+      return res
+        .status(403)
+        .json({ greska: "Samo admin može odgovoriti na zahtjev" });
+    }
+
+    if (!odobren && !addToTekst) {
+      return res.status(400).json({
+        greska: "addToTekst je obavezan kada je odobren=false",
+      });
+    }
+
+    const zahtjev = await db.Zahtjev.findOne({
+      where: {
+        id: zahtjevId,
+        NekretninaId: nekretninaId,
+      },
+    });
+
+    if (!zahtjev) {
+      return res.status(404).json({ greska: "Zahtjev nije pronađen" });
+    }
+
+    const updatedText = addToTekst
+      ? `${zahtjev.tekst} ODGOVOR ADMINA: ${addToTekst}`
+      : zahtjev.tekst;
+
+    await zahtjev.update({
+      odobren: odobren,
+      tekst: updatedText,
+    });
+
+    res.status(200).json({ poruka: "Zahtjev uspješno ažuriran" });
+  } catch (error) {
+    console.error("Error updating zahtjev:", error);
+    res.status(500).json({ greska: "Internal Server Error" });
   }
 });
 
@@ -645,23 +835,6 @@ app.post("/marketing/osvjezi/klikovi", async (req, res) => {
 const initializeApp = async () => {
   try {
     await db.sequelize.sync({ force: true });
-
-    await db.Korisnik.create({
-      ime: "Admin",
-      prezime: "Admin",
-      username: "admin",
-      password: "admin",
-      admin: true,
-    });
-
-    await db.Korisnik.create({
-      ime: "User",
-      prezime: "User",
-      username: "user",
-      password: "user",
-      admin: false,
-    });
-
     await dataMigration();
 
     app.listen(PORT, () => {

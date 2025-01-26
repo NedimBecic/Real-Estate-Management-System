@@ -110,7 +110,8 @@ const Zahtjev = sequelize.define("Zahtjev", {
   },
   odobren: {
     type: DataTypes.BOOLEAN,
-    defaultValue: false,
+    allowNull: true,
+    defaultValue: null,
   },
 });
 
@@ -135,7 +136,16 @@ const Ponuda = sequelize.define("Ponuda", {
   },
   odbijenaPonuda: {
     type: DataTypes.BOOLEAN,
-    defaultValue: false,
+    allowNull: true,
+    defaultValue: null,
+  },
+  vezanaPonudaId: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    references: {
+      model: "Ponuda",
+      key: "id",
+    },
   },
 });
 
@@ -181,22 +191,6 @@ Nekretnina.prototype.getInteresovanja = async function () {
 
 const initDatabase = async () => {
   await sequelize.sync({ force: true });
-
-  await Korisnik.create({
-    ime: "Admin",
-    prezime: "Admin",
-    username: "admin",
-    password: "admin",
-    admin: true,
-  });
-
-  await Korisnik.create({
-    ime: "User",
-    prezime: "User",
-    username: "user",
-    password: "user",
-    admin: false,
-  });
 };
 
 module.exports = {

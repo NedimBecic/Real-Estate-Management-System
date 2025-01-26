@@ -5,7 +5,6 @@ const db = require("./database.js");
 
 async function dataMigration() {
   try {
-
     await db.sequelize.sync({ force: true });
 
     await db.sequelize.query("SET FOREIGN_KEY_CHECKS = 0");
@@ -29,10 +28,26 @@ async function dataMigration() {
         ime: korisnik.ime,
         prezime: korisnik.prezime,
         username: korisnik.username,
-        password: korisnik.password, 
+        password: korisnik.password,
         admin: false,
       });
     }
+
+    await db.Korisnik.create({
+      ime: "Admin",
+      prezime: "Admin",
+      username: "admin",
+      password: await bcrypt.hash("admin", 10),
+      admin: true,
+    });
+
+    await db.Korisnik.create({
+      ime: "User",
+      prezime: "User",
+      username: "user",
+      password: await bcrypt.hash("user", 10),
+      admin: false,
+    });
 
     for (const nekretnina of nekretnine) {
       const createdNekretnina = await db.Nekretnina.create({
@@ -74,3 +89,4 @@ async function dataMigration() {
 }
 
 module.exports = { dataMigration };
+
