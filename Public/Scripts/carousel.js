@@ -1,5 +1,6 @@
 function setDisplay(glavniElement, elementi, index = 0) {
   if (!elementi || elementi.length === 0) return;
+  
   glavniElement.innerHTML = elementi[index].outerHTML;
 }
 

@@ -130,12 +130,69 @@ iframe {
 
 .top5-item {
     padding: 10px;
-    border: 1px solid #eee;
-    border-radius: 4px;
     text-align: center;
 }
 
 .top5-item img {
-    max-width: 300px;
+    width: 250px;
     height: 200px;
+}
+
+.interest-form {
+    border: 1px solid #000;
+    padding: 20px;
+    margin: 20px;
+    width: 50%;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.btn {
+    background-color: grey;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #ff9900;
+}
+
+.hidden {
+    display: none;
+}
+
+.interesovanje {
+    border: 1px solid #000;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: white;
+}
+
+.interesovanje p {
+    margin: 5px 0;
+}
+
+.interesovanje strong {
+    display: inline-block;
+    width: 150px;
 }

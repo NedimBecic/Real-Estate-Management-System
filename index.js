@@ -59,7 +59,7 @@ const routes = [
   { route: "/statistika.html", file: "statistika.html" },
   { route: "/vijesti.html", file: "vijesti.html" },
   { route: "/mojiUpiti.html", file: "mojiUpiti.html" },
-  { route: "/odajava.html", file: "odjava.html" },
+  { route: "/odjava.html", file: "odjava.html" },
   // Practical for adding more .html files as the project grows
 ];
 
@@ -716,6 +716,72 @@ app.put("/nekretnina/:id/zahtjev/:zid", async (req, res) => {
     res.status(200).json({ poruka: "Zahtjev uspješno ažuriran" });
   } catch (error) {
     console.error("Error updating zahtjev:", error);
+    res.status(500).json({ greska: "Internal Server Error" });
+  }
+});
+
+app.get("/moja-interesovanja", async (req, res) => {
+  if (!req.session.username) {
+    return res.status(401).json({ greska: "Neautorizovan pristup" });
+  }
+
+  try {
+    const loggedInUser = await db.Korisnik.findOne({
+      where: { username: req.session.username },
+    });
+
+    if (!loggedInUser) {
+      return res.status(401).json({ greska: "Neautorizovan pristup" });
+    }
+
+    const upiti = await db.Upit.findAll({
+      where: { KorisnikId: loggedInUser.id },
+      include: [db.Nekretnina],
+      attributes: ["id", "NekretninaId", "tekst"],
+    });
+
+    const zahtjevi = await db.Zahtjev.findAll({
+      where: { KorisnikId: loggedInUser.id },
+      include: [db.Nekretnina],
+      attributes: ["id", "NekretninaId", "tekst", "trazeniDatum", "odobren"],
+    });
+
+    const ponude = await db.Ponuda.findAll({
+      where: { KorisnikId: loggedInUser.id },
+      include: [db.Nekretnina],
+      attributes: [
+        "id",
+        "NekretninaId",
+        "tekst",
+        "cijenaPonude",
+        "odbijenaPonuda",
+      ],
+    });
+
+    const formattedInteresovanja = [
+      ...upiti.map((upit) => ({
+        type: "upit",
+        id_nekretnine: upit.NekretninaId,
+        tekst: upit.tekst,
+      })),
+      ...zahtjevi.map((zahtjev) => ({
+        type: "zahtjev",
+        id_nekretnine: zahtjev.NekretninaId,
+        tekst: zahtjev.tekst,
+        trazeniDatum: zahtjev.trazeniDatum,
+        odobren: zahtjev.odobren,
+      })),
+      ...ponude.map((ponuda) => ({
+        type: "ponuda",
+        id_nekretnine: ponuda.NekretninaId,
+        tekst: ponuda.tekst,
+        odbijenaPonuda: ponuda.odbijenaPonuda,
+      })),
+    ];
+
+    res.json(formattedInteresovanja);
+  } catch (error) {
+    console.error("Error fetching interesovanja:", error);
     res.status(500).json({ greska: "Internal Server Error" });
   }
 });

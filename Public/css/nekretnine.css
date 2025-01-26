@@ -53,6 +53,7 @@ iframe {
 
 .detalji-nekretnine {
     text-align: left;
+    margin-bottom: 50px;;
 }
 
 .detalji-nekretnine h3 {
@@ -69,7 +70,6 @@ iframe {
 }
 
 .detalji-dugme {
-    margin: 20px auto;
     background-color: #ff9900;
     color: white;
     padding: 10px 20px;

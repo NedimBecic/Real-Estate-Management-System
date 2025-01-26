@@ -3,16 +3,28 @@ let currentPage = 1;
 let hasMoreUpiti = true;
 let nekretninaId;
 let carouselUpiti = [];
-let currentIndex = 0
+let currentIndex = 0;
+let isAdmin = false;
+let currentUser = null;
 
 window.onload = function () {
   const urlParams = new URLSearchParams(window.location.search);
   nekretninaId = urlParams.get("id");
 
   if (nekretninaId) {
+    initializeForm();
     loadNekretnina(nekretninaId);
+    setupEventListeners();
+
+    PoziviAjax.getKorisnik((error, user) => {
+      if (!error && user) {
+        currentUser = user;
+        isAdmin = user.username === "admin";
+      }
+    });
   }
 };
+
 
 function loadNekretnina(id) {
   PoziviAjax.getNekretnina(id, (error, nekretninaData) => {
@@ -172,5 +184,161 @@ function carouselNext() {
   } else {
     carousel.fnDesno();
     currentIndex = carousel.getCurrentIndex();
+  }
+}
+
+function initializeForm() {
+  const interestType = document.getElementById("interestType");
+  if (interestType) {
+    interestType.addEventListener("change", updateFormFields);
+  }
+}
+
+function setupEventListeners() {
+  const form = document.getElementById("interestForm");
+  if (form) {
+    form.addEventListener("submit", handleFormSubmit);
+  }
+}
+
+function updateFormFields() {
+  const type = document.getElementById("interestType").value;
+  const zahtjevFields = document.getElementById("zahtjevFields");
+  const ponudaFields = document.getElementById("ponudaFields");
+
+  if (zahtjevFields)
+    zahtjevFields.style.display = type === "zahtjev" ? "block" : "none";
+  if (ponudaFields) {
+    ponudaFields.style.display = type === "ponuda" ? "block" : "none";
+    if (type === "ponuda") loadRelatedOffers();
+  }
+}
+
+function loadRelatedOffers() {
+  const relatedOfferSelect = document.getElementById("relatedOffer");
+  if (!relatedOfferSelect) return;
+
+  PoziviAjax.getInteresovanja(nekretninaId, (error, data) => {
+    if (error) {
+      console.error("Error fetching interesovanja:", error);
+      return;
+    }
+
+    try {
+      const parsedData = typeof data === "string" ? JSON.parse(data) : data;
+
+      const interesovanja = Array.isArray(parsedData) ? parsedData : [];
+
+      const ponude = interesovanja.filter((i) => i.type === "ponuda");
+      relatedOfferSelect.innerHTML =
+        '<option value="">Bez vezane ponude</option>';
+
+      if (isAdmin) {
+        ponude.forEach((p) => {
+          relatedOfferSelect.innerHTML += `<option value="${p.id}">${p.id} - ${p.tekst}</option>`;
+        });
+      } else {
+        const userPonude = ponude.filter(
+          (p) => p.korisnikId === currentUser.id
+        );
+        relatedOfferSelect.disabled = userPonude.length === 0;
+        userPonude.forEach((p) => {
+          relatedOfferSelect.innerHTML += `<option value="${p.id}">${p.id} - ${p.tekst}</option>`;
+        });
+      }
+    } catch (e) {
+      console.error("Error processing ponude:", e);
+      relatedOfferSelect.innerHTML =
+        '<option value="">Greška pri učitavanju ponuda</option>';
+    }
+  });
+}
+
+
+function createInteresovanjeElement(interesovanje) {
+  const div = document.createElement("div");
+  div.className = "interesovanje";
+
+  let content = `
+        <p><strong>ID:</strong> ${interesovanje.id}</p>
+        <p><strong>Tekst:</strong> ${interesovanje.tekst}</p>
+    `;
+
+  if (interesovanje.type === "ponuda") {
+    content += `<p><strong>Status:</strong> ${
+      interesovanje.odbijenaPonuda ? "odbijena" : "odobrena"
+    }</p>`;
+  } else if (interesovanje.type === "zahtjev") {
+    content += `
+            <p><strong>Datum:</strong> ${new Date(
+              interesovanje.trazeniDatum
+            ).toLocaleDateString()}</p>
+            <p><strong>Status:</strong> ${
+              interesovanje.odobren ? "odobren" : "na čekanju"
+            }</p>
+        `;
+
+    if (isAdmin || interesovanje.korisnikId === currentUser?.id) {
+      content += `<p><strong>Dodatni detalji:</strong> ${
+        interesovanje.detalji || "Nema"
+      }</p>`;
+    }
+  }
+
+  div.innerHTML = content;
+  return div;
+}
+
+function handleFormSubmit(e) {
+  e.preventDefault();
+
+  const type = document.getElementById("interestType").value;
+  const text = document.getElementById("text").value;
+
+  if (!text) return;
+
+  switch (type) {
+    case "upit":
+      PoziviAjax.postUpit(nekretninaId, text, handleResponse);
+      break;
+    case "zahtjev":
+      const date = document.getElementById("requestedDate").value;
+      if (!date) return;
+
+      PoziviAjax.postZahtjev(
+        nekretninaId,
+        {
+          tekst: text,
+          trazeniDatum: date,
+        },
+        handleResponse
+      );
+      break;
+    case "ponuda":
+      const price = document.getElementById("price").value;
+      const relatedOfferId = document.getElementById("relatedOffer").value;
+
+      if (!price) return;
+
+      PoziviAjax.postPonuda(
+        nekretninaId,
+        {
+          tekst: text,
+          ponudaCijene: price,
+          datumPonude: new Date().toISOString(),
+          idVezanePonude: relatedOfferId || null,
+          odbijenaPonuda: false,
+        },
+        handleResponse
+      );
+      break;
+  }
+}
+
+function handleResponse(error, data) {
+  if (!error) {
+    document.getElementById("interestForm").reset();
+  } else {
+    console.error("Error submitting interest:", error);
   }
 }
