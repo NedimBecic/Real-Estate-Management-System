@@ -18,10 +18,14 @@ async function dataMigration() {
         "utf-8"
       )
     );
+    const vijesti = JSON.parse(
+      await fs.readFile(path.join(__dirname, "data", "vijesti.json"), "utf-8")
+    );
 
     await db.Upit.destroy({ where: {} });
     await db.Nekretnina.destroy({ where: {} });
     await db.Korisnik.destroy({ where: {} });
+    await db.Vijest.destroy({ where: {} });
 
     for (const korisnik of korisnici) {
       await db.Korisnik.create({
@@ -79,6 +83,65 @@ async function dataMigration() {
       }
     }
 
+    for (const vijest of vijesti) {
+      await db.Vijest.create({
+        naslov: vijest.naslov,
+        tekst: vijest.tekst,
+        slika: vijest.slika,
+        kategorija: vijest.kategorija,
+        istaknutaVijest: vijest.istaknutaVijest || false,
+        datum: new Date(),
+      });
+    }
+
+    await db.Slike.bulkCreate([
+      {
+        path: "../Resources/nekretnine/s-1.jpg",
+        type: "header",
+        NekretninaId: 1,
+      },
+      {
+        path: "../Resources/nekretnine/s-2.jpg",
+        type: "header",
+        NekretninaId: 2,
+      },
+      {
+        path: "../Resources/nekretnine/s-3.jpg",
+        type: "header",
+        NekretninaId: 3,
+      },
+      {
+        path: "../Resources/nekretnine/k-1.jpg",
+        type: "header",
+        NekretninaId: 4,
+      },
+      {
+        path: "../Resources/nekretnine/k-2.jpg",
+        type: "header",
+        NekretninaId: 5,
+      },
+      {
+        path: "../Resources/nekretnine/k-3.jpg",
+        type: "header",
+        NekretninaId: 6,
+      },
+      {
+        path: "../Resources/nekretnine/pp-1.jpg",
+        type: "header",
+        NekretninaId: 7,
+      },
+      {
+        path: "../Resources/nekretnine/pp-2.jpg",
+        type: "header",
+        NekretninaId: 8,
+      },
+      {
+        path: "../Resources/nekretnine/pp-3.jpg",
+        type: "header",
+        NekretninaId: 9,
+      },
+    ]);
+
     await db.sequelize.query("SET FOREIGN_KEY_CHECKS = 1");
 
     console.log("Data migration completed successfully!");
@@ -89,4 +152,3 @@ async function dataMigration() {
 }
 
 module.exports = { dataMigration };
-

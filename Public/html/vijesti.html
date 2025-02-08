@@ -1,115 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="bs-BA">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vijesti</title>
     <link rel="stylesheet" type="text/css" href="../css/vijesti.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
   </head>
   <body>
     <iframe src="meni.html"></iframe>
-    <div class="vijesti-grid">
-      <div class="glavnaVijest">
-        <img
-          src="../Resources/header.jpg"
-          alt="vijesti slika"
-          class="naslovna"
-        />
-        <h1 class="title">Sarajevski Sajam</h1>
-        <p class="text-title">
-          Otvoren tradicionalni sajam rukotvorina na Baščaršiji!
-        </p>
+    
+    <section class="hero-section">
+      <iframe src="meni.html"></iframe>
+      <div class="hero-content">
+        <h1 class="hero-title">Ostanite u toku sa našim vijestima</h1>
+        <a href="#vijesti" class="hero-cta">
+          Pregledajte vijesti
+          <i class="material-icons">arrow_forward</i>
+        </a>
       </div>
+    </section>
 
-      <div class="visokaVijest" id="visokaVijestDrugiSection">
-        <h3>Zimski Festival</h3>
-        <p>
-          Festival zimske čarolije počinje u centru grada s mnoštvom aktivnosti
-          za sve uzraste.
-        </p>
+    <div id="vijesti" class="vijesti-container">
+      <div class="browse-title">
+        <h2>Najnovije vijesti</h2>
       </div>
-
-      <div class="kvadratnaVijest" id="kvadratnaVijestGornjiLijevi">
-        <h3>Noć Teatra</h3>
-        <p>
-          Sarajevo će večeras ugostiti niz predstava u okviru regionalnog
-          festivala teatra.
-        </p>
-      </div>
-
-      <div class="kvadratnaVijest" id="kvadratnaVijestGornjiDesni">
-        <h3>Jesenje Boje</h3>
-        <p>
-          Parkovi Sarajeva postaju šareni s dolaskom jesenjih boja i hladnijih
-          dana.
-        </p>
-      </div>
-
-      <div class="visokaVijest" id="visokaVijestDrugiSection2">
-        <h3>Pješački Most</h3>
-        <p>
-          Novi pješački most preko rijeke Miljacke svečano je otvoren jutros.
-        </p>
-      </div>
-
-      <div class="kvadratnaVijest" id="kvadratnaVijestDonjiLijevi">
-        <h3>Zelena Inicijativa</h3>
-        <p>
-          Grad Sarajevo pokrenuo je projekat za sadnju 500 novih stabala širom
-          grada.
-        </p>
-      </div>
-
-      <div class="kvadratnaVijest" id="kvadratnaVijestDonjiDesni">
-        <h3>Noć Knjige</h3>
-        <p>
-          Večeras se održava manifestacija u kojoj su gradske biblioteke
-          otvorene do ponoći.
-        </p>
-      </div>
-
-      <div class="kvadratnaVijest" id="kvadratnaVijestGornjiLijevi2">
-        <h3>Obnovljeni Spomenik</h3>
-        <p>
-          Spomenik na Vijećnici je restauriran u znak sjećanja na historijske
-          događaje.
-        </p>
-      </div>
-
-      <div class="kvadratnaVijest" id="kvadratnaVijestGornjiDesni2">
-        <h3>Promocija Knjige</h3>
-        <p>
-          Lokalni pisac promovira svoju novu knjigu u galeriji "Zvono" večeras.
-        </p>
-      </div>
-
-      <div class="kvadratnaVijest" id="kvadratnaVijestDonjiLijevi2">
-        <h3>Prva Snježna</h3>
-        <p>
-          Prvi snijeg je prekrio Sarajevo, donoseći zimsku atmosferu u grad.
-        </p>
-      </div>
-
-      <div class="kvadratnaVijest" id="kvadratnaVijestDonjiDesni2">
-        <h3>Sportski Turnir</h3>
-        <p>Održava se godišnji turnir mladih sportista u dvorani Skenderija.</p>
-      </div>
-
-      <div class="visokaVijest" id="visokaVijestTreciSection">
-        <h3>Kulturna Srijeda</h3>
-        <p>
-          U Narodnom pozorištu večeras počinje niz kulturnih događanja pod ovim
-          nazivom.
-        </p>
-      </div>
-
-      <div class="visokaVijest" id="visokaVijestTreciSection2">
-        <h3>Vikend Sajam</h3>
-        <p>
-          Ovaj vikend će se održati sajam domaćih proizvoda na Trgu Oslobođenja.
-        </p>
-      </div>
-      
+      <div class="vijesti-grid"></div>
     </div>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <span>©Nedim Bečić 2025.</span>
+      </div>
+    </footer>
+
+    <script src="../scripts/PoziviAjax.js"></script>
+    <script src="../scripts/vijesti.js"></script>
   </body>
 </html>

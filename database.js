@@ -82,6 +82,22 @@ const Nekretnina = sequelize.define("Nekretnina", {
   },
 });
 
+const Slike = sequelize.define("Slike", {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  path: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  type: {
+    type: DataTypes.ENUM("header", "gallery"),
+    allowNull: false,
+  },
+});
+
 const Upit = sequelize.define("Upit", {
   id: {
     type: DataTypes.INTEGER,
@@ -149,6 +165,38 @@ const Ponuda = sequelize.define("Ponuda", {
   },
 });
 
+const Vijest = sequelize.define("Vijest", {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  naslov: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  tekst: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  slika: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  datum: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+  },
+  kategorija: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  istaknutaVijest: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
+});
+
 Korisnik.hasMany(Upit);
 Upit.belongsTo(Korisnik);
 
@@ -167,30 +215,15 @@ Zahtjev.belongsTo(Nekretnina);
 Nekretnina.hasMany(Ponuda);
 Ponuda.belongsTo(Nekretnina);
 
+Nekretnina.hasMany(Slike);
+Slike.belongsTo(Nekretnina);
+
 Ponuda.belongsTo(Ponuda, { as: "vezanaPonuda", foreignKey: "vezanaPonudaId" });
 Ponuda.hasMany(Ponuda, { as: "vezanePonude", foreignKey: "vezanaPonudaId" });
 
-Nekretnina.prototype.getInteresovanja = async function () {
-  const [upiti, zahtjevi, ponude] = await Promise.all([
-    Upit.findAll({
-      where: { nekretninaId: this.id },
-      include: [Korisnik],
-    }),
-    Zahtjev.findAll({
-      where: { nekretninaId: this.id },
-      include: [Korisnik],
-    }),
-    Ponuda.findAll({
-      where: { nekretninaId: this.id },
-      include: [Korisnik, "vezanePonude"],
-    }),
-  ]);
-
-  return [...upiti, ...zahtjevi, ...ponude];
-};
-
 const initDatabase = async () => {
   await sequelize.sync({ force: true });
+
 };
 
 module.exports = {
@@ -200,7 +233,7 @@ module.exports = {
   Upit,
   Zahtjev,
   Ponuda,
+  Slike,
+  Vijest,
   initDatabase,
 };
-
-

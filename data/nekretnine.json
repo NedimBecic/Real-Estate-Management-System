@@ -2,108 +2,166 @@
   {
     "id": 1,
     "tip_nekretnine": "Stan",
-    "naziv": "Useljiv stan Sarajevo",
-    "kvadratura": 58,
-    "cijena": 232000,
-    "tip_grijanja": "plin",
-    "lokacija": "Novo Sarajevo",
-    "godina_izgradnje": 2019,
-    "datum_objave": "01.10.2023.",
-    "opis": "Sociis natoque penatibus.",
+    "naziv": "Moderan stan u centru",
+    "kvadratura": 75,
+    "cijena": 250000,
+    "tip_grijanja": "centralno",
+    "lokacija": "Centar",
+    "godina_izgradnje": 2020,
+    "datum_objave": "15.01.2024.",
+    "opis": "Luksuzan stan smješten u samom srcu grada, opremljen modernim namještajem i ukrašen visokim stropovima koji pružaju osjećaj prostranosti. Kompletno renovirana kupatila sa italijanskom keramikom, prostrana dnevna soba povezana sa kuhinjom u otvorenom konceptu. Velike staklene površine osiguravaju obilje prirodnog svjetla. Uključuje zatvoreno parking mjesto u podzemnoj garaži sa daljinskim upravljanjem. Zgrada posjeduje 24/7 video nadzor i moderan lift.",
     "upiti": [
       {
         "korisnik_id": 1,
-        "tekst_upita": "Nullam eu pede mollis pretium. 1"
+        "tekst_upita": "Da li je moguć dogovor oko cijene?"
       },
       {
         "korisnik_id": 2,
-        "tekst_upita": "Phasellus viverra nulla. 2"
-      },
-      {
-        "korisnik_id": 1,
-        "tekst_upita": "Nullam eu pede mollis pretium. 3"
-      },
-      {
-        "korisnik_id": 1,
-        "tekst_upita": "Nullam eu pede mollis pretium. 4"
-      },
-      {
-        "korisnik_id": 1,
-        "tekst_upita": "Nullam eu pede mollis pretium. 5"
-      },
-      {
-        "korisnik_id": 3,
-        "tekst_upita": "Test upit 2"
-      },
-      {
-        "korisnik_id": 3,
-        "tekst_upita": "Test upit 1"
-      },
-      {
-        "korisnik_id": 3,
-        "tekst_upita": "Test upit 3"
+        "tekst_upita": "Zanima me stanje stolarije."
       }
     ]
   },
   {
-    "id": 4,
+    "id": 2,
     "tip_nekretnine": "Stan",
-    "naziv": "Useljiv stan Sarajevo",
-    "kvadratura": 58,
-    "cijena": 232000,
+    "naziv": "Dvosoban stan Grbavica",
+    "kvadratura": 55,
+    "cijena": 180000,
     "tip_grijanja": "plin",
-    "lokacija": "Novo Sarajevo",
-    "godina_izgradnje": 2019,
-    "datum_objave": "01.10.2023.",
-    "opis": "Sociis natoque penatibus.",
+    "lokacija": "Grbavica",
+    "godina_izgradnje": 2015,
+    "datum_objave": "20.01.2024.",
+    "opis": "Odličan dvosoban stan na popularnoj lokaciji, nedavno renoviran i spreman za useljenje. Nalazi se na trećem spratu zgrade sa liftom, južne orijentacije sa prostranim balkonom. Kuhinja opremljena najnovijim uređajima, ugrađeni plakari u spavaćoj sobi. Nova PVC stolarija sa troslojnim staklom osigurava odličnu zvučnu i toplotnu izolaciju. Tramvajska stanica udaljena 2 minute hoda. Blizina škole, vrtića i shopping centra.",
     "upiti": [
       {
-        "korisnik_id": 1,
-        "tekst_upita": "Nullam eu pede mollis pretium. 1"
-      },
-      {
-        "korisnik_id": 2,
-        "tekst_upita": "Phasellus viverra nulla. 1"
+        "korisnik_id": 3,
+        "tekst_upita": "Koje je orijentacije stan?"
       }
     ]
   },
   {
     "id": 3,
     "tip_nekretnine": "Stan",
-    "naziv": "Useljiv stan Sarajevo",
-    "kvadratura": 58,
-    "cijena": 232000,
-    "tip_grijanja": "plin",
-    "lokacija": "Novo Sarajevo",
-    "godina_izgradnje": 2019,
-    "datum_objave": "01.10.2023.",
-    "opis": "Sociis natoque penatibus.",
+    "naziv": "Garsonjera Marijin Dvor",
+    "kvadratura": 30,
+    "cijena": 120000,
+    "tip_grijanja": "struja",
+    "lokacija": "Marijin Dvor",
+    "godina_izgradnje": 2010,
+    "datum_objave": "25.01.2024.",
+    "opis": "Kompaktna garsonjera idealna za studente ili mlade parove, smještena u neposrednoj blizini BBI centra. Prostor je pametno organizovan sa multifunkcionalnim namještajem i ugrađenim plakarima koji maksimiziraju iskoristivost prostora. Moderan enterijer uključuje LED rasvjetu i klizna vrata. Kupatilo renovirano 2023. godine sa walk-in tušem. Odlična zvučna izolacija, novi prozori sa dvostrukim staklom. U prizemlju zgrade nalazi se mini market.",
     "upiti": [
       {
         "korisnik_id": 1,
-        "tekst_upita": "Nullam eu pede mollis pretium. 2"
-      },
-      {
-        "korisnik_id": 2,
-        "tekst_upita": "Phasellus viverra nulla. 2"
+        "tekst_upita": "Ima li lift u zgradi?"
       }
     ]
   },
   {
-    "id": 2,
-    "tip_nekretnine": "Poslovni prostor",
-    "naziv": "Mali poslovni prostor",
-    "kvadratura": 20,
-    "cijena": 70000,
-    "tip_grijanja": "struja",
-    "lokacija": "Centar",
-    "godina_izgradnje": 2005,
-    "datum_objave": "20.08.2023.",
-    "opis": "Magnis dis parturient montes.",
+    "id": 4,
+    "tip_nekretnine": "Kuća",
+    "naziv": "Vila na Trebeviću",
+    "kvadratura": 300,
+    "cijena": 750000,
+    "tip_grijanja": "plin",
+    "lokacija": "Trebević",
+    "godina_izgradnje": 2022,
+    "datum_objave": "10.01.2024.",
+    "opis": "Luksuzna vila na Trebeviću koja predstavlja vrhunac modernog dizajna i udobnosti. Prostrana dnevna soba sa panoramskim prozorima od poda do plafona pruža spektakularan pogled na grad. Grijani infinity bazen sa smart kontrolom temperature. Profesionalno uređen vrt sa automatskim sistemom navodnjavanja i vanjskom kuhinjom. Garaža za 3 automobila opremljena električnim punjačima. Smart home sistem kontroliše osvjetljenje, grijanje i sigurnost. Master spavaća soba uključuje garderobu i en-suite kupatilo sa jacuzzi kadom.",
     "upiti": [
       {
         "korisnik_id": 2,
-        "tekst_upita": "Integer tincidunt."
+        "tekst_upita": "Je li moguća kupovina na rate?"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "tip_nekretnine": "Kuća",
+    "naziv": "Porodična kuća",
+    "kvadratura": 180,
+    "cijena": 320000,
+    "tip_grijanja": "centralno",
+    "lokacija": "Vogošća",
+    "godina_izgradnje": 2018,
+    "datum_objave": "05.01.2024.",
+    "opis": "Prostrana porodična kuća na dvije etaže sa funkcionalnim rasporedom prostorija. Prizemlje sadrži otvoreni dnevni boravak sa kaminom, trpezariju i potpuno opremljenu kuhinju sa granitnom radnom površinom. Sprat ima četiri spavaće sobe, dva kupatila i radnu sobu. Posebna prostorija za veš. Dvorište od 500m² uključuje uređeni voćnjak sa sistemom za navodnjavanje, natkrivenu terasu i dječije igralište. Dodatni objekat u dvorištu pogodan za radionicu ili ostavu.",
+    "upiti": [
+      {
+        "korisnik_id": 3,
+        "tekst_upita": "Kolika je površina dvorišta?"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "tip_nekretnine": "Kuća",
+    "naziv": "Vikendica Igman",
+    "kvadratura": 120,
+    "cijena": 200000,
+    "tip_grijanja": "drva",
+    "lokacija": "Igman",
+    "godina_izgradnje": 2019,
+    "datum_objave": "30.01.2024.",
+    "opis": "Prelijepa vikendica na Igmanu, savršeno uklopljena u prirodno okruženje. Građena od najkvalitetnijih materijala sa posebnim naglaskom na toplotnu izolaciju. Dnevni boravak sa kaminom od prirodnog kamena i velikim prozorima. Kompletno opremljena kuhinja sa tradicionalnim šporetom na drva. Dvije spavaće sobe na spratu sa kosim plafonima i drvenim gredama. Natkrivena terasa sa roštiljem i rustičnim namještajem. Osiguran pristup asfaltiranim putem koji se redovno održava tokom zimske sezone.",
+    "upiti": [
+      {
+        "korisnik_id": 1,
+        "tekst_upita": "Je li pristup moguć zimi?"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "tip_nekretnine": "Poslovni prostor",
+    "naziv": "Poslovni prostor SCC",
+    "kvadratura": 150,
+    "cijena": 450000,
+    "tip_grijanja": "centralno",
+    "lokacija": "Marijin Dvor",
+    "godina_izgradnje": 2019,
+    "datum_objave": "02.01.2024.",
+    "opis": "Moderan poslovni prostor u Sarajevo City Centru, strateški pozicioniran u najprometnijem dijelu grada. Open-space koncept sa mogućnošću pregrađivanja u manje jedinice. Podovi od visokokvalitetnog parketa, spušteni plafoni sa LED rasvjetom i ugrađenom klimatizacijom. Čajna kuhinja i dvije toaletne prostorije. Server soba sa redundantnim internet konekcijama. Kontrola pristupa sa elektronskim karticama, videonadzor i protivpožarni sistem najnovije generacije. Uključena dva parking mjesta u podzemnoj garaži.",
+    "upiti": [
+      {
+        "korisnik_id": 2,
+        "tekst_upita": "Postoji li mogućnost iznajmljivanja?"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "tip_nekretnine": "Poslovni prostor",
+    "naziv": "Kancelarijski prostor",
+    "kvadratura": 80,
+    "cijena": 240000,
+    "tip_grijanja": "toplotna pumpa",
+    "lokacija": "Zmaja od Bosne",
+    "godina_izgradnje": 2021,
+    "datum_objave": "12.01.2024.",
+    "opis": "Kancelarijski prostor na prvom spratu moderne poslovne zgrade sa energy-efficient certifikatom. Fleksibilan layout pogodan za različite poslovne potrebe. Zidovi sa zvučnom izolacijom, anti-statik podovi i LED rasvjeta sa senzorom pokreta. Prostrana sala za sastanke sa ugrađenim projektorom i video konferencijskom opremom. Moderna čajna kuhinja, odvojeni toaleti i prostor za arhivu. Sistem kontrole pristupa, 24/7 recepcija i osiguranje. Odlična prirodna svjetlost kroz velike prozore sa unutrašnjim žaluzinama.",
+    "upiti": [
+      {
+        "korisnik_id": 3,
+        "tekst_upita": "Koliki su mjesečni režijski troškovi?"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "tip_nekretnine": "Poslovni prostor",
+    "naziv": "Skladišni prostor Rajlovac",
+    "kvadratura": 500,
+    "cijena": 380000,
+    "tip_grijanja": "infrared",
+    "lokacija": "Rajlovac",
+    "godina_izgradnje": 2017,
+    "datum_objave": "18.01.2024.",
+    "opis": "Veliki skladišni prostor u industrijskoj zoni Rajlovca sa odličnom saobraćajnom povezanošću. Dvije utovarne rampe sa hidrauličnim nivelatorima i električna rolo vrata. Ojačani betonski pod nosivosti 5t/m². Protivpožarni sistem sa sprinklerima, alarmni sistem i video nadzor povezan sa security službom. Posebna prostorija za kontrolu kvalitete, kancelarija i garderoba za radnike. Veliki manevarski prostor za kamione, ograđeno dvorište sa rampom. Kompletan objekat pokriven industrijskim WiFi mrežom. Sve potrebne dozvole za različite vrste skladištenja.",
+    "upiti": [
+      {
+        "korisnik_id": 1,
+        "tekst_upita": "Ima li prostor potrebne dozvole za skladištenje hrane?"
       }
     ]
   }

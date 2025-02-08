@@ -6,256 +6,188 @@
     <title>Statistika</title>
     <link rel="stylesheet" type="text/css" href="../css/statistika.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
   </head>
   <body>
-    <iframe src="meni.html"></iframe>
-    <div class="content-container">
-      <h1>Statistika nekretnina</h1>
+    <section class="hero-section">
+      <iframe src="meni.html"></iframe>
+      <div class="hero-content">
+        <h1 class="hero-title">Statistička analiza nekretnina</h1>
+        <a href="#search-container" class="hero-cta">
+          Pregledajte statistike
+          <i class="material-icons">arrow_forward</i>
+        </a>
+      </div>
+    </section>
 
-      <div class="input-container">
+    <div id="search-container">
+      <h2 class="search-title">Prikaz Grafova</h2>
+
+      <div class="search-field">
         <input
           type="text"
-          placeholder="Unesite raspone perioda (npr. 2000 2010, 2010 2024...)"
           id="rasponiPeriodaInput"
+          placeholder="Unesite raspone perioda (npr. 2000 2010, 2010 2024...)"
         />
-        <label for="rasponiPeriodaInput"> Rasponi perioda: </label>
       </div>
 
-      <div class="input-container">
+      <div class="search-field">
         <input
           type="text"
-          placeholder="Unesite raspone cijena (npr. 10000 150000, 150000 1000000...)"
           id="rasponiCijenaInput"
+          placeholder="Unesite raspone cijena (npr. 10000 150000, 150000 1000000...)"
         />
-        <label for="rasponiCijenaInput"> Rasponi cijena: </label>
       </div>
 
-      <div class="button-container">
-        <button class="btn" id="submitButton">Prikaži graf</button>
-      </div>
-
-      <h3 class="subtitle">Grafički prikaz</h3>
+      <button id="submitButton">Prikaži graf</button>
 
       <div class="histogram-container">
         <p id="placeholder-text">Trenutno nema podataka za crtanje grafa.</p>
       </div>
+    </div>
 
-      <h3 class="subtitle">Računanje prosječne kvadrature po kriteriju</h3>
+    <div id="kvadratura-container">
+      <h2 class="search-title">Računanje prosječne kvadrature po kriteriju</h2>
 
-      <div class="input-container">
+      <div class="search-field">
         <input
           type="text"
-          placeholder="Unesite tip nekretnine (stan, kuća, poslovni prostor ili ostavite prazno da preskočite ovaj korak)"
           id="tipNekretnineInput"
+          placeholder="Unesite tip nekretnine (stan, kuća, poslovni prostor)"
         />
-        <label for="tipNekretnineInput"> Tip nekretnine: </label>
       </div>
 
-      <div class="input-container">
+      <div class="search-field">
         <input
           type="text"
-          placeholder="Unesite minimalnu kvadraturu (ostavite prazno da preskočite ovaj korak)"
           id="minKvadraturaInput"
+          placeholder="Minimalna kvadratura"
         />
-        <label for="minKvadraturaInput"> Minimalna kvadratura: </label>
       </div>
 
-      <div class="input-container">
+      <div class="search-field">
         <input
           type="text"
-          placeholder="Unesite maksimalnu kvadraturu (ostavite prazno da preskočite ovaj korak)"
           id="maxKvadraturaInput"
+          placeholder="Maksimalna kvadratura"
         />
-        <label for="maxKvadraturaInput"> Maksimalna kvadratura: </label>
       </div>
 
-      <div class="input-container">
-        <input
-          type="text"
-          placeholder="Unesite minimalnu cijenu (ostavite prazno da preskočite ovaj korak)"
-          id="minCijenaInput"
-        />
-        <label for="minCijenaInput"> Minimalna cijena: </label>
+      <div class="search-field">
+        <input type="text" id="minCijenaInput" placeholder="Minimalna cijena" />
       </div>
 
-      <div class="input-container">
+      <div class="search-field">
         <input
           type="text"
-          placeholder="Unesite maksimalnu cijenu (ostavite prazno da preskočite ovaj korak)"
           id="maxCijenaInput"
+          placeholder="Maksimalna cijena"
         />
-        <label for="maxCijenaInput"> Maksimalna cijena: </label>
       </div>
 
-      <div class="button-container">
-        <button class="btn" id="submitButton2">
-          Izračunaj prosječnu kvadraturu
-        </button>
-      </div>
+      <button id="submitButton2">Izračunaj prosječnu kvadraturu</button>
 
       <h4 id="prosjecnaKvadraturaTitle">Prosječna kvadratura</h4>
-      <div class="input-container">
-        <input
-          type="text"
-          placeholder="Prosječna kvadratura"
-          id="prosjecnaKvadraturaOutput"
-          readonly
-        />
+      <div class="search-field">
+        <input type="text" id="prosjecnaKvadraturaOutput" readonly />
       </div>
+    </div>
 
-      <h3 class="subtitle">
+    <div id="outlier-container">
+      <h2 class="search-title">
         Računanje najvećeg odstupanja po kriteriju i svojstvu
-      </h3>
+      </h2>
 
-      <div class="input-container">
+      <div class="search-field">
         <input
           type="text"
-          placeholder="Unesite tip nekretnine (stan, kuća, poslovni prostor ili ostavite prazno da preskočite ovaj korak)"
           id="tipNekretnineInput2"
+          placeholder="Unesite tip nekretnine (stan, kuća, poslovni prostor)"
         />
-        <label for="tipNekretnineInput2"> Tip nekretnine: </label>
       </div>
 
-      <div class="input-container">
+      <div class="search-field">
         <input
           type="text"
-          placeholder="Unesite minimalnu kvadraturu (ostavite prazno da preskočite ovaj korak)"
           id="minKvadraturaInput2"
+          placeholder="Minimalna kvadratura"
         />
-        <label for="minKvadraturaInput2"> Minimalna kvadratura: </label>
       </div>
 
-      <div class="input-container">
+      <div class="search-field">
         <input
           type="text"
-          placeholder="Unesite maksimalnu kvadraturu (ostavite prazno da preskočite ovaj korak)"
           id="maxKvadraturaInput2"
+          placeholder="Maksimalna kvadratura"
         />
-        <label for="maxKvadraturaInput2"> Maksimalna kvadratura: </label>
       </div>
 
-      <div class="input-container">
+      <div class="search-field">
         <input
           type="text"
-          placeholder="Unesite minimalnu cijenu (ostavite prazno da preskočite ovaj korak)"
           id="minCijenaInput2"
+          placeholder="Minimalna cijena"
         />
-        <label for="minCijenaInput2"> Minimalna cijena: </label>
       </div>
 
-      <div class="input-container">
+      <div class="search-field">
         <input
           type="text"
-          placeholder="Unesite maksimalnu cijenu (ostavite prazno da preskočite ovaj korak)"
           id="maxCijenaInput2"
+          placeholder="Maksimalna cijena"
         />
-        <label for="maxCijenaInput2"> Maksimalna cijena: </label>
       </div>
 
-      <div class="input-container">
-        <input
-          type="text"
-          placeholder="Unesite naziv (ostavite prazno da preskočite ovaj korak)"
-          id="nazivInput"
-        />
-        <label for="nazivInput"> Naziv: </label>
+      <div class="search-field">
+        <input type="text" id="nazivInput" placeholder="Naziv" />
       </div>
 
-      <div class="input-container">
-        <input
-          type="text"
-          placeholder="Unesite tip grijanja (ostavite prazno da preskočite ovaj korak)"
-          id="tipGrijanjaInput"
-        />
-        <label for="tipGrijanjaInput"> Tip grijanja: </label>
+      <div class="search-field">
+        <input type="text" id="tipGrijanjaInput" placeholder="Tip grijanja" />
       </div>
 
-      <div class="input-container">
-        <input
-          type="text"
-          placeholder="Unesite lokaciju (ostavite prazno da preskočite ovaj korak)"
-          id="lokacijaInput"
-        />
-        <label for="lokacijaInput"> Lokacija: </label>
+      <div class="search-field">
+        <input type="text" id="lokacijaInput" placeholder="Lokacija" />
       </div>
 
-      <div class="input-container">
+      <div class="search-field">
         <input
           type="text"
-          placeholder="Unesite godinu izgradnje (ostavite prazno da preskočite ovaj korak)"
           id="godinaIzgradnjeInput"
+          placeholder="Godina izgradnje"
         />
-        <label for="godinaIzgradnjeInput"> Godina izgradnje: </label>
       </div>
 
-      <div class="input-container">
-        <input
-          type="text"
-          placeholder="Unesite datum objave (ostavite prazno da preskočite ovaj korak)"
-          id="datumObjaveInput"
-        />
-        <label for="datumObjaveInput"> Datum objave: </label>
+      <div class="search-field">
+        <input type="text" id="datumObjaveInput" placeholder="Datum objave" />
       </div>
 
-      <div class="input-container">
-        <input
-          type="text"
-          placeholder="Unesite opis (ostavite prazno da preskočite ovaj korak)"
-          id="opisInput"
-        />
-        <label for="opisInput"> Opis: </label>
+      <div class="search-field">
+        <input type="text" id="opisInput" placeholder="Opis" />
       </div>
 
-      <div class="input-container">
+      <div class="search-field">
         <input
           type="text"
-          placeholder="Naziv svojstva po kojem se traži odstupanje"
           id="svojstvoInput"
+          placeholder="Naziv svojstva po kojem se traži odstupanje"
         />
-        <label for="svojstvoInput"> Naziv svojstva: </label>
       </div>
 
-      <div class="button-container">
-        <button class="btn" id="submitButton3">Pronađi outlier-a</button>
-      </div>
+      <button id="submitButton3">Pronađi outlier-a</button>
 
       <h4 id="outlierTitle">Outlier</h4>
-      <div class="input-container">
-        <textarea
-          placeholder="Outlier nekretnina"
-          id="outlierNekretnina"
-          readonly
-        ></textarea>
-      </div>
-
-      <h3 class="subtitle">Prikazivanje nekretnina za korisnike</h3>
-
-      <div class="input-container">
-        <input
-          type="text"
-          placeholder="Unesite username za pretraživanje nekretnina"
-          id="usernameInput"
-        />
-        <label for="usernameInput"> Unesite username: </label>
-      </div>
-
-      <div class="button-container">
-        <button class="btn" id="submitButton4">Prikaži nekretnine</button>
-      </div>
-
-      <h4 id="idTitle">Korisničke nekretnine</h4>
-
-      <div class="input-container">
-        <textarea
-          placeholder="Korisničke nekretnine"
-          id="korisnikNekretnineOutput"
-          readonly
-        ></textarea>
+      <div class="search-field">
+        <textarea id="outlierNekretnina" readonly></textarea>
       </div>
     </div>
 
     <script src="../Scripts/SpisakNekretnina.js"></script>
     <script src="../Scripts/StatistikaNekretnina.js"></script>
+    <script src="../Scripts/PoziviAjax.js"></script>
     <script src="../Scripts/statistika.js"></script>
   </body>
 </html>

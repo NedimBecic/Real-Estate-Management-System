@@ -1,142 +1,162 @@
 body {
-  background-color: #fdf1d3;
-  font-family: Arial, sans-serif;
+  background-color: #1e1e1e;
+  color: white;
   margin: 0;
   padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 iframe {
-  border: none;
   width: 100%;
-  height: 100%;
-}
-
-h1 {
-  text-align: center;
-  padding-bottom: 50px;
-}
-
-label {
-  font-size: 1rem;
-  margin-left: 2rem;
-  margin-top: 0.7rem;
-  display: block;
-  transition: all 0.3s;
-  transform: translateY(0rem);
-}
-
-input {
-  color: #333;
-  font-size: 1.2rem;
-  margin: 0 auto;
-  padding: 1.5rem 2rem;
-  border-radius: 0.5rem;
-  background-color: white;
   border: none;
-  width: 90%;
-  display: block;
-  border-bottom: 0.3rem solid transparent;
-  transition: all 0.3s;
+  height: 60px;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
-input:focus {
-  outline: none;
+.hero-section {
+  position: relative;
+  height: 100vh;
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url("../Resources/headers/statistics-header.jpg");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 5%;
+  max-width: 800px;
+}
+
+.hero-title {
+  font-size: 4rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  line-height: 1.2;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #ff8c38;
+  color: white;
+  text-decoration: none;
+  border-radius: 100px;
+  font-weight: 600;
+  transition: background-color 0.3s;
+  width: fit-content;
+  gap: 0.5rem;
+}
+
+.hero-cta:hover {
+  background-color: #e67a26;
+}
+
+#search-container {
+  margin-top: -2rem;
+}
+
+#search-container,
+#kvadratura-container,
+#outlier-container {
+  background-color: #2a2a2a;
+  padding: 4rem;
+  margin: 2rem;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.search-title {
+  color: white;
+  font-size: 1.75rem;
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+
+.search-field {
+  position: relative;
+}
+
+.search-field input,
+.search-field textarea {
+  width: 100%;
+  padding: 1rem;
   border: 1px solid #333;
+  border-radius: 100px;
+  background-color: #1e1e1e;
+  color: white;
+  font-size: 1rem;
+  box-sizing: border-box;
 }
 
-input:placeholder-shown + label {
-  opacity: 0;
-  visibility: hidden;
-  -webkit-transform: translateY(-4rem);
-  transform: translateY(-4rem);
+.search-field textarea {
+  min-height: 100px;
+  border-radius: 16px;
+  resize: vertical;
+}
+
+.search-field input:focus,
+.search-field textarea:focus {
+  outline: none;
+  border-color: #ff8c38;
+}
+
+button {
+  padding: 1rem;
+  background-color: #ff8c38;
+  color: white;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+
+button:hover {
+  background-color: #e67a26;
 }
 
 h4 {
-  display: block;
-  margin-top: 50px;
-  margin-left: 40px;
-  font-size: 1rem;
-}
-
-#placeholder-text {
-  text-align: center;
-  margin-top: 50px;
-}
-
-.input-container {
-  margin: 0 10px 20px 10px;
-}
-
-.subtitle {
-  display: block;
-  margin-left: 40px;
-  margin-top: 50px;
-  font-size: 1.5rem;
-}
-
-.content-container {
-  margin: 0 auto;
-  max-width: 1200px;
-  padding: 0 20px;
-}
-
-.input-container {
-  margin-bottom: 20px;
-  width: 100%;
-}
-
-.button-container {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.btn {
-  font-size: 1rem;
-  padding: 10px 20px;
-  background-color: #333;
   color: white;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.btn:hover {
-  background-color: #4f4d4d;
+  margin: 1rem 0 0.5rem 0;
+  font-size: 1.2rem;
 }
 
 .histogram-container {
   display: flex;
-  justify-content: space-evenly;
+  flex-wrap: wrap;
+  justify-content: space-between;
   gap: 20px;
-  width: 100%;
-  margin-bottom: 100px;
+  padding: 2rem;
+  background-color: #1e1e1e;
+  border-radius: 16px;
+  margin-top: 2rem;
 }
 
-.histogram-container canvas {
-  width: 100% !important;
-  height: 300px !important;
-  margin-bottom: 20px !important;
+.histogram-canvas {
+ height: 400px !important;
 }
 
-textarea {
-  font-family: Arial, sans-serif;
-  color: #333;
-  font-size: 1.2rem;
-  margin: 0 auto;
-  padding: 1.5rem 2rem;
-  border-radius: 0.5rem;
-  background-color: white;
-  border: none;
-  width: 90%;
-  display: block;
-  border-bottom: 0.3rem solid transparent;
-  transition: all 0.3s;
-  resize: none;
-  overflow: hidden;
+#placeholder-text {
+  color: #888;
+  text-align: center;
+  margin: 0;
 }
 
-textarea:focus {
-  outline: none;
-  border: 1px solid #333;
+input[readonly],
+textarea[readonly] {
+  opacity: 0.7;
+  cursor: default;
 }

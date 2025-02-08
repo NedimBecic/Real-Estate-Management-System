@@ -288,98 +288,90 @@ function crtajHistogram(periodi, rasponiCijena) {
   const histogramContainer = document.querySelector(".histogram-container");
   histogramContainer.innerHTML = "";
 
-  const histogramData = statistika.histogramCijena(periodi, rasponiCijena);
+  PoziviAjax.getStatistikaPeriodi((error, rawData) => {
+    if (error) {
+      console.error("Error fetching period data:", error);
+      return;
+    }
 
-  rasponiCijena.forEach((priceRange, j) => {
-    const canvasContainer = document.createElement("div");
-    canvasContainer.style.display = "inline-block";
-    canvasContainer.style.width = "48%";
-    canvasContainer.style.margin = "10px";
+    const data = typeof rawData === "string" ? JSON.parse(rawData) : rawData;
+    if (!Array.isArray(data)) {
+      console.error("Nepravilan format podataka!");
+      return;
+    }
 
-    const canvas = document.createElement("canvas");
-    canvas.className = "histogram-canvas";
-    canvasContainer.appendChild(canvas);
-    histogramContainer.appendChild(canvasContainer);
+    const nekretnine = data.map((n) => ({
+      datum_objave: new Date(n.datum_objave),
+      cijena: n.cijena,
+    }));
 
-    const ctx = canvas.getContext("2d");
+    rasponiCijena.forEach((priceRange, j) => {
+      const canvasContainer = document.createElement("div");
+      canvasContainer.style.width = "48%";
+      canvasContainer.style.margin = "0";
 
-    const labels = periodi.map((period) => `${period.od} - ${period.do}`);
+      const canvas = document.createElement("canvas");
+      canvas.className = "histogram-canvas";
+      canvasContainer.appendChild(canvas);
+      histogramContainer.appendChild(canvasContainer);
 
-    const dataForGraph = periodi.map((_, i) => {
-      const entry = histogramData.find(
-        (data) => data.indeksPerioda === i && data.indeksRasporedaCijena === j
-      );
-      return entry ? entry.brojNekretnina : 0;
-    });
+      const ctx = canvas.getContext("2d");
+      const labels = periodi.map((period) => `${period.od} - ${period.do}`);
 
-    const colorPalette = [
-      "rgba(255, 99, 132, 0.6)",
-      "rgba(54, 162, 235, 0.6)",
-      "rgba(75, 192, 192, 0.6)",
-      "rgba(255, 206, 86, 0.6)",
-      "rgba(153, 102, 255, 0.6)",
-      "rgba(255, 159, 64, 0.6)",
-    ];
+      const dataForGraph = periodi.map((period) => {
+        return nekretnine.filter((n) => {
+          const year = n.datum_objave.getFullYear();
+          return (
+            year > period.od &&
+            year <= period.do &&
+            n.cijena > priceRange.od &&
+            n.cijena <= priceRange.do
+          );
+        }).length;
+      });
 
-    const datasets = [
-      {
-        label: `Cijena ${priceRange.od} - ${priceRange.do}`,
-        data: dataForGraph,
-        borderWidth: 1,
-        backgroundColor: periodi.map(
-          (_, i) => colorPalette[i % colorPalette.length]
-        ),
-      },
-    ];
-
-    const plugin = {
-      id: "customCanvasBackgroundColor",
-      beforeDraw: (chart, args, options) => {
-        const { ctx } = chart;
-        ctx.save();
-        ctx.globalCompositeOperation = "destination-over";
-        ctx.fillStyle = options.color || "#FFFFFF";
-        ctx.fillRect(0, 0, chart.width, chart.height);
-        ctx.restore();
-      },
-    };
-
-    new Chart(ctx, {
-      type: "bar",
-      data: {
-        labels: labels,
-        datasets: datasets,
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        layout: {
-          padding: 10,
+      new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: `Cijena ${priceRange.od} - ${priceRange.do}`,
+              data: dataForGraph,
+              backgroundColor: "#ff8c38",
+              borderColor: "#e67a26",
+              borderWidth: 1,
+              borderRadius: 4,
+            },
+          ],
         },
-        scales: {
-          x: {
-            grid: {
-              display: false,
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          layout: { padding: 5 },
+          plugins: {
+            legend: {
+              labels: {
+                color: "#fff",
+                font: {
+                  family:
+                    "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+                },
+              },
             },
           },
-          y: {
-            grid: {
-              display: false,
+          scales: {
+            x: {
+              grid: { display: false, color: "#333" },
+              ticks: { color: "#fff" },
             },
-            beginAtZero: true,
+            y: {
+              grid: { color: "#333" },
+              ticks: { color: "#fff" },
+            },
           },
         },
-        plugins: {
-          customCanvasBackgroundColor: {
-            color: "#FFFFFF",
-          },
-          legend: {
-            display: true,
-            position: "top",
-          },
-        },
-      },
-      plugins: [plugin],
+      });
     });
   });
 }
@@ -420,14 +412,14 @@ document.getElementById("submitButton2").addEventListener("click", function () {
     max_cijena: max_cijena,
   };
 
-  const prosjecnaKvadratura = String(
-    statistika.prosjecnaKvadratura(kriterij)
-  ).concat("m²");
-
-  const prosjecnaKvadraturaOutput = document.getElementById(
-    "prosjecnaKvadraturaOutput"
-  );
-  prosjecnaKvadraturaOutput.value = prosjecnaKvadratura;
+  PoziviAjax.getStatistikaAverage(kriterij, (error, data) => {
+    if (error) {
+      console.error("Error calculating average:", error);
+      return;
+    }
+    document.getElementById("prosjecnaKvadraturaOutput").value =
+      data.prosjecnaKvadratura + "m²";
+  });
 
   if (isNaN(kriterij.min_kvadratura)) {
     kriterij.min_kvadratura = "0";
@@ -587,9 +579,13 @@ document.getElementById("submitButton3").addEventListener("click", function () {
     opis: opis,
   };
 
-  const outlier = statistika.outlier(kriterij, naziv_svojstva);
-
-  const outlierNektretnina = document.getElementById("outlierNekretnina");
+  PoziviAjax.getStatistikaOutlier(kriterij, (error, data) => {
+    if (error) {
+      console.error("Error finding outlier:", error);
+      return;
+    }
+    document.getElementById("outlierNekretnina").value = parseNekretnina(data);
+  });
 
   if (outlier) {
     outlierNektretnina.value = parseNekretnina(outlier);
@@ -642,190 +638,3 @@ document.getElementById("submitButton3").addEventListener("click", function () {
   opisInput.value = "";
 });
 
-document.getElementById("submitButton4").addEventListener("click", function () {
-  const usernameInput = document.getElementById("usernameInput");
-  const korisnikNekretnineOutput = document.getElementById(
-    "korisnikNekretnineOutput"
-  );
-
-  const korisnik = {
-    username: usernameInput.value,
-  };
-
-  const nekretnine = statistika.mojeNekretnine(korisnik);
-
-  if (!nekretnine || !nekretnine.length) {
-    korisnikNekretnineOutput.value = `Nisu pronađene nekretnine koje sadrže upit za korisnika: ${usernameInput.value}.`;
-    autoResizeTextarea(korisnikNekretnineOutput);
-    usernameInput.value = "";
-    return;
-  }
-
-  let nekretnineOutput = [];
-
-  for (let i = 0; i < nekretnine.length; i++) {
-    nekretnineOutput.push(parseNekretnina(nekretnine[i]));
-    nekretnineOutput.push("\n\n");
-  }
-
-  korisnikNekretnineOutput.value = nekretnineOutput.join("");
-
-  autoResizeTextarea(korisnikNekretnineOutput);
-
-  usernameInput.value = "";
-});
-
-function validateInputs2(
-  tipNekretnine,
-  minKvadratura,
-  maxKvadratura,
-  minCijena,
-  maxCijena,
-  nazivSvojstva,
-  flag,
-  naziv,
-  tipGrijanja,
-  lokacija,
-  godinaIzgradnje,
-  datumObjave,
-  opis
-) {
-  tipNekretnine = tipNekretnine.trim();
-  const validTipovi = ["Stan", "Kuća", "Poslovni prostor"];
-  if (!tipNekretnine) {
-    alert("Tip nekretnine je obavezan.");
-    return false;
-  } else {
-    tipNekretnine =
-      tipNekretnine.charAt(0).toUpperCase() +
-      tipNekretnine.slice(1).toLowerCase();
-    if (!validTipovi.includes(tipNekretnine)) {
-      alert(`Tip nekretnine mora biti jedan od: ${validTipovi.join(", ")}.`);
-      return false;
-    }
-  }
-
-  if (minKvadratura && (isNaN(minKvadratura) || minKvadratura <= 0)) {
-    alert("Minimalna kvadratura mora biti broj veći od 0.");
-    return false;
-  }
-
-  if (maxKvadratura && (isNaN(maxKvadratura) || maxKvadratura <= 0)) {
-    alert("Maksimalna kvadratura mora biti broj veći od 0.");
-    return false;
-  }
-
-  if (minKvadratura && maxKvadratura && minKvadratura > maxKvadratura) {
-    alert("Minimalna kvadratura ne može biti veća od maksimalne kvadrature.");
-    return false;
-  }
-
-  if (minCijena && (isNaN(minCijena) || minCijena <= 0)) {
-    alert("Minimalna cijena mora biti broj veći od 0.");
-    return false;
-  }
-
-  if (maxCijena && (isNaN(maxCijena) || maxCijena <= 0)) {
-    alert("Maksimalna cijena mora biti broj veći od 0.");
-    return false;
-  }
-
-  if (minCijena && maxCijena && minCijena > maxCijena) {
-    alert("Minimalna cijena ne može biti veća od maksimalne cijene.");
-    return false;
-  }
-
-  if (godinaIzgradnje) {
-    const parsedGodinaIzgradnje = parseInt(godinaIzgradnje, 10);
-    if (
-      isNaN(parsedGodinaIzgradnje) ||
-      parsedGodinaIzgradnje < 1900 ||
-      parsedGodinaIzgradnje > 2024
-    ) {
-      alert(
-        "Godina izgradnje mora biti broj između 1900 i 2024 (ili ostavite prazno)."
-      );
-      return false;
-    }
-    godinaIzgradnje = parsedGodinaIzgradnje;
-  }
-
-  if (datumObjave) {
-    const dateRegex = /^(\d{2})\.(\d{2})\.(\d{4})\.$/;
-    const match = datumObjave.match(dateRegex);
-
-    if (!match) {
-      alert("Datum objave mora biti u formatu DD.MM.YYYY.");
-      return false;
-    }
-
-    const day = parseInt(match[1], 10);
-    const month = parseInt(match[2], 10);
-    const year = parseInt(match[3], 10);
-
-    if (year < 1900 || year > 2024) {
-      alert("Godina u datumu objave mora biti između 1900 i 2024.");
-      return false;
-    }
-
-    if (month < 1 || month > 12) {
-      alert("Mjesec u datumu objave mora biti između 1 i 12.");
-      return false;
-    }
-
-    const daysInMonth = new Date(year, month, 0).getDate();
-    if (day < 1 || day > daysInMonth) {
-      alert(
-        `Dan u datumu objave mora biti između 1 i ${daysInMonth} za mjesec ${month}.`
-      );
-      return false;
-    }
-  }
-
-  if (flag) {
-    const validNazivi = [
-      "id",
-      "tip_nekretnine",
-      "naziv",
-      "kvadratura",
-      "cijena",
-      "tip_grijanja",
-      "lokacija",
-      "godina_izgradnje",
-      "datum_objave",
-      "opis",
-      "upiti",
-    ];
-    nazivSvojstva = nazivSvojstva.trim();
-    if (!validNazivi.includes(nazivSvojstva)) {
-      alert(
-        "Naziv svojstva nije validan. Mora biti jedno od sljedećih: " +
-          validNazivi.join(", ")
-      );
-      return false;
-    }
-
-    return {
-      tip_nekretnine: tipNekretnine,
-      min_kvadratura: parseInt(minKvadratura),
-      max_kvadratura: parseInt(maxKvadratura),
-      min_cijena: parseInt(minCijena),
-      max_cijena: parseInt(maxCijena),
-      naziv_svojstva: nazivSvojstva,
-      naziv: naziv.trim(),
-      tip_grijanja: tipGrijanja.trim(),
-      lokacija: lokacija.trim(),
-      godina_izgradnje: godinaIzgradnje,
-      datum_objave: datumObjave.trim(),
-      opis: opis.trim(),
-    };
-  } else {
-    return {
-      tip_nekretnine: tipNekretnine,
-      min_kvadratura: parseInt(minKvadratura),
-      max_kvadratura: parseInt(maxKvadratura),
-      min_cijena: parseInt(minCijena),
-      max_cijena: parseInt(maxCijena),
-    };
-  }
-}

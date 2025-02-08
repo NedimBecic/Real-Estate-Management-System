@@ -1,29 +1,92 @@
 <!DOCTYPE html>
 <html lang="bs-BA">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Prijava</title>
-    <link rel="stylesheet" type="text/css" href="../css/prijava.css">
-</head>
+    <link rel="stylesheet" type="text/css" href="../css/prijava.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+  </head>
 
-<body id="body">
+  <body id="body">
     <iframe src="meni.html"></iframe>
-    <div id="formaDugme">
-    <form>
-        <label for="username">Username: </label>
-        <input type="text" id="username" name="username"><br>
-        <label for="password">Password :</label>
-        <input type="password" id="password" name="password">
-        <br><br>
-    </form>
-    <button id="dugme" type="button" aria-label="login">Login</button>
-    </div>
-    <div id="areaBelow">
+    <div class="container">
+      <div class="form-container">
+        <div class="tab-container">
+          <button class="tab-button active" data-tab="login">Prijava</button>
+          <button class="tab-button" data-tab="register">Registracija</button>
+        </div>
 
+        <div class="form-content" id="login-form">
+          <form>
+            <div class="input-group">
+              <i class="material-icons">person_outline</i>
+              <input
+                type="text"
+                placeholder="Unesite korisničko ime"
+                id="username"
+              />
+            </div>
+            <div class="input-group">
+              <i class="material-icons">lock</i>
+              <input
+                type="password"
+                placeholder="Unesite password"
+                id="password"
+              />
+              <i class="material-icons toggle-password">visibility_off</i>
+            </div>
+            <div class="options-group">
+              <div class="remember-me">
+                <input type="checkbox" id="remember" />
+                <label for="remember">Zapamti me</label>
+              </div>
+            </div>
+            <button type="submit" class="submit-btn" id="prijava">
+              Prijava
+            </button>
+          </form>
+        </div>
+
+        <div class="form-content hidden" id="register-form">
+          <form>
+            <div class="input-group">
+              <i class="material-icons">person_outline</i>
+              <input
+                type="text"
+                placeholder="Unesite ime i prezime"
+                id="imePrezime"
+              />
+            </div>
+            <div class="input-group">
+              <i class="material-icons">account_box</i>
+              <input
+                type="text"
+                placeholder="Unesite korisničko ime"
+                id="usernameRegistration"
+              />
+            </div>
+            <div class="input-group">
+              <i class="material-icons">lock</i>
+              <input
+                type="password"
+                placeholder="Unesite password"
+                id="passwordRegistration"
+              />
+              <i class="material-icons toggle-password">visibility_off</i>
+            </div>
+            <button type="submit" class="submit-btn" id="registracija">
+              Regstracija
+            </button>
+          </form>
+        </div>
+        <div id="areaBelow"></div>
+      </div>
     </div>
-</body>
-    <script src="../scripts/poziviAjax.js"></script>
-    <script src="../scripts/prijava.js"></script>
+  </body>
+  <script src="../scripts/poziviAjax.js"></script>
+  <script src="../scripts/prijava.js"></script>
 </html>

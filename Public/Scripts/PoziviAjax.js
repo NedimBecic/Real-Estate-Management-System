@@ -1,11 +1,4 @@
 const PoziviAjax = (() => {
-  // fnCallback se u svim metodama poziva kada stigne
-  // odgovor sa servera putem Ajax-a
-  // svaki callback kao parametre ima error i data,
-  // error je null ako je status 200 i data je tijelo odgovora
-  // ako postoji greška, poruka se prosljeđuje u error parametru
-  // callback-a, a data je tada null
-
   function ajaxRequest(method, url, data, callback) {
     const xhr = new XMLHttpRequest();
     xhr.open(method, url, true);
@@ -22,7 +15,6 @@ const PoziviAjax = (() => {
     xhr.send(data ? JSON.stringify(data) : null);
   }
 
-  // vraća korisnika koji je trenutno prijavljen na sistem
   function impl_getKorisnik(fnCallback) {
     let ajax = new XMLHttpRequest();
 
@@ -45,49 +37,39 @@ const PoziviAjax = (() => {
     ajax.send();
   }
 
-  // ažurira podatke loginovanog korisnika
   function impl_putKorisnik(noviPodaci, fnCallback) {
-    // Check if user is authenticated
     if (!req.session.username) {
-      // User is not logged in
       return fnCallback(
         { status: 401, statusText: "Neautorizovan pristup" },
         null
       );
     }
 
-    // Get data from request body
     const { ime, prezime, username, password } = noviPodaci;
 
-    // Read user data from the JSON file
     const users = readJsonFile("korisnici");
 
-    // Find the user by username
     const loggedInUser = users.find(
       (user) => user.username === req.session.username
     );
 
     if (!loggedInUser) {
-      // User not found (should not happen if users are correctly managed)
       return fnCallback(
         { status: 401, statusText: "Neautorizovan pristup" },
         null
       );
     }
 
-    // Update user data with the provided values
     if (ime) loggedInUser.ime = ime;
     if (prezime) loggedInUser.prezime = prezime;
     if (username) loggedInUser.adresa = adresa;
     if (password) loggedInUser.brojTelefona = brojTelefona;
 
-    // Save the updated user data back to the JSON file
     saveJsonFile("korisnici", users);
 
     fnCallback(null, { poruka: "Podaci su uspješno ažurirani" });
   }
 
-  // dodaje novi upit za trenutno loginovanog korisnika
   function impl_postUpit(nekretnina_id, tekst_upita, fnCallback) {
     ajaxRequest(
       "POST",
@@ -101,18 +83,14 @@ const PoziviAjax = (() => {
   }
 
   function impl_getNekretnine(fnCallback) {
-    // Koristimo AJAX poziv da bismo dohvatili podatke s servera
     ajaxRequest("GET", "/nekretnine", null, (error, data) => {
-      // Ako se dogodi greška pri dohvaćanju podataka, proslijedi grešku kroz callback
       if (error) {
         fnCallback(error, null);
       } else {
-        // Ako su podaci uspješno dohvaćeni, parsiraj JSON i proslijedi ih kroz callback
         try {
           const nekretnine = JSON.parse(data);
           fnCallback(null, nekretnine);
         } catch (parseError) {
-          // Ako se dogodi greška pri parsiranju JSON-a, proslijedi grešku kroz callback
           fnCallback(parseError, null);
         }
       }
@@ -129,7 +107,6 @@ const PoziviAjax = (() => {
         } else if (ajax.readyState == 429) {
           fnCallback(ajax.responseText, null);
         } else {
-          //desio se neki error
           fnCallback(ajax.statusText, null);
         }
       }
@@ -151,7 +128,6 @@ const PoziviAjax = (() => {
       if (ajax.readyState == 4 && ajax.status == 200) {
         fnCallback(null, ajax.response);
       } else if (ajax.readyState == 4) {
-        //desio se neki error
         fnCallback(ajax.statusText, null);
       }
     };
@@ -220,6 +196,134 @@ const PoziviAjax = (() => {
     ajaxRequest("GET", "/moja-interesovanja", null, fnCallback);
   }
 
+  function impl_getNekretninaSlike(nekretninaId, fnCallback) {
+    ajaxRequest("GET", `/nekretnina/${nekretninaId}/slike`, null, fnCallback);
+  }
+
+  function impl_getHeaderImage(nekretninaId, fnCallback) {
+    impl_getNekretninaSlike(nekretninaId, (error, data) => {
+      if (error) {
+        fnCallback(error, null);
+      } else {
+        try {
+          const slike = JSON.parse(data);
+          const headerImage = slike.header[0] || null;
+          fnCallback(null, headerImage);
+        } catch (parseError) {
+          fnCallback(parseError, null);
+        }
+      }
+    });
+  }
+
+  function impl_getVijesti(fnCallback) {
+    ajaxRequest("GET", "/vijesti", null, (error, data) => {
+      if (error) {
+        fnCallback(error, null);
+      } else {
+        try {
+          const vijesti = JSON.parse(data);
+          fnCallback(null, vijesti);
+        } catch (error) {
+          fnCallback(error, null);
+        }
+      }
+    });
+  }
+
+  function impl_getVijest(id, fnCallback) {
+    ajaxRequest("GET", `/vijest/${id}`, null, (error, data) => {
+      if (error) {
+        fnCallback(error, null);
+      } else {
+        try {
+          const vijest = JSON.parse(data);
+          fnCallback(null, vijest);
+        } catch (error) {
+          fnCallback(error, null);
+        }
+      }
+    });
+  }
+
+  function impl_getIstaknutaVijest(fnCallback) {
+    ajaxRequest("GET", "/vijesti/istaknuta", null, (error, data) => {
+      if (error) {
+        fnCallback(error, null);
+      } else {
+        try {
+          const vijest = JSON.parse(data);
+          fnCallback(null, vijest);
+        } catch (error) {
+          fnCallback(error, null);
+        }
+      }
+    });
+  }
+
+  function impl_getIstaknutaVijest(fnCallback) {
+    ajaxRequest("GET", "/vijesti/istaknuta", null, (error, data) => {
+      if (error) {
+        fnCallback(error, null);
+      } else {
+        try {
+          const vijest = JSON.parse(data);
+          fnCallback(null, vijest);
+        } catch (error) {
+          fnCallback(error, null);
+        }
+      }
+    });
+  }
+
+  function impl_getStatistikaPeriodi(fnCallback) {
+    ajaxRequest("GET", "/statistika/nekretnine/periodi", null, fnCallback);
+  }
+
+  function impl_getStatistikaAverage(criteria, fnCallback) {
+    const params = new URLSearchParams(criteria);
+    ajaxRequest(
+      "GET",
+      `/statistika/nekretnine/average?${params}`,
+      null,
+      fnCallback
+    );
+  }
+
+  function impl_getStatistikaOutlier(criteria, fnCallback) {
+    const params = new URLSearchParams(criteria);
+    ajaxRequest(
+      "GET",
+      `/statistika/nekretnine/outlier?${params}`,
+      null,
+      fnCallback
+    );
+  }
+
+  function impl_postRegistration(ime, prezime, username, password, fnCallback) {
+    const ajax = new XMLHttpRequest();
+    ajax.onreadystatechange = function () {
+      if (ajax.readyState == 4) {
+        if (ajax.status == 200) {
+          fnCallback(null, ajax.response);
+        } else {
+          fnCallback(JSON.parse(ajax.responseText), null);
+        }
+      }
+    };
+
+    ajax.open("POST", "http://localhost:3000/register", true);
+    ajax.setRequestHeader("Content-Type", "application/json");
+    const data = {
+      ime: ime,
+      prezime: prezime,
+      username: username,
+      password: password,
+    };
+    ajax.send(JSON.stringify(data));
+  }
+
+
   return {
     postLogin: impl_postLogin,
     postLogout: impl_postLogout,
@@ -236,5 +340,14 @@ const PoziviAjax = (() => {
     postZahtjev: impl_postZahtjev,
     updateZahtjev: impl_updateZahtjev,
     getMojaInteresovanja: impl_getMojaInteresovanja,
+    getNekretninaSlike: impl_getNekretninaSlike,
+    getHeaderImage: impl_getHeaderImage,
+    getVijesti: impl_getVijesti,
+    getIstaknutaVijest: impl_getIstaknutaVijest,
+    getStatistikaPeriodi: impl_getStatistikaPeriodi,
+    getStatistikaAverage: impl_getStatistikaAverage,
+    getStatistikaOutlier: impl_getStatistikaOutlier,
+    getVijest: impl_getVijest,
+    postRegistration: impl_postRegistration
   };
 })();

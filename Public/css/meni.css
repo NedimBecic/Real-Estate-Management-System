@@ -1,6 +1,6 @@
 body {
-  background-color: #fdf1d3;
-  font-family: Arial, sans-serif;
+  background-color: #1E1E1E;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -8,50 +8,45 @@ body {
 ul {
   list-style: none;
   margin: 0;
-  padding: 0;
-  background-color: #333;
-  overflow: hidden;
+  padding: 0.5rem 2rem;
+  background-color: rgba(26, 26, 26, 0.9);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  gap: 2rem;
 }
 
 li {
-  float: left;
+  display: flex;
   align-items: center;
 }
 
 li a {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
   color: white;
-  text-align: center;
-  padding: 14px 16px;
   text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 100px;
+  transition: background-color 0.3s;
 }
 
 li a:hover {
-  color: #ff9900;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #FF8C38;
 }
 
 .menu-icon {
-  font-size: 24px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: transform 0.3s ease;
 }
 
-li a:hover .item-text {
-  opacity: 0;
-  transition: opacity 0.5s;
-}
-
-li a:hover .menu-icon {
-  transform: scale(2.5) translateY(-4px);
-  width: auto;
-}
-
-.menu-icon {
-  display: block;
-  margin: 0 auto;
-  width: 24px;
-  height: 24px;
-  transition: transform 1s ease;
+.item-text {
+  font-weight: 500;
 }
 
 .hidden {

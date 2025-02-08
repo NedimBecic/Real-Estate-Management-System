@@ -5,110 +5,102 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Detalji</title>
     <link rel="stylesheet" type="text/css" href="../css/detalji.css" />
-    <script src="../scripts/PoziviAjax.js"></script>
-    <script src="../Scripts/carousel.js"></script>
-    <script src="../Scripts/detalji.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   </head>
-
   <body>
     <iframe src="meni.html"></iframe>
 
-    <div id="osnovno">
-      <img alt="Nekretnina" />
-      <p><strong>Naziv:</strong> Useljiv stan sarajevo</p>
-      <p><strong>Kvadratura:</strong> 58 m²</p>
-      <p><strong>Cijena:</strong> 232,000 KM</p>
-    </div>
-
-    <h3>DETALJI</h3>
-    <div id="detalji">
-      <div id="kolona1">
-        <p><strong>Tip grijanja:</strong> plin</p>
-        <p><strong>Lokacija:</strong> Novo Sarajevo</p>
-      </div>
-      <div id="kolona2">
-        <p><strong>Godina izgradnje:</strong> 2019</p>
-        <p><strong>Datum objave oglasa:</strong> 2022</p>
-      </div>
-      <div id="opis">
-        <p>
-          <strong>Opis:</strong> Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Dolore dignissimos eos tempore, mollitia doloribus
-          vitae molestiae ullam ut repudiandae alias corrupti, rem nisi officia
-          at perferendis dolorum iusto dolores nobis!
-        </p>
+    <div class="header-section">
+      <img id="slikaNekretnine" alt="Slika Nekretnine" />
+      <div class="header-content">
+        <h1 id="nazivNekretnine"></h1>
+        <p id="lokacijaNekretnine"></p>
       </div>
     </div>
 
-    <h3>NOVO INTERESOVANJE</h3>
-    <div class="interest-form">
-      <form id="interestForm">
-        <div class="form-group">
-          <label for="interestType">Tip interesovanja:</label>
-          <select
-            id="interestType"
-            class="form-control"
-            onchange="updateFormFields()"
-          >
-            <option value="upit">Upit</option>
-            <option value="zahtjev">Zahtjev</option>
-            <option value="ponuda">Ponuda</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="text">Tekst:</label>
-          <textarea id="text" class="form-control" required></textarea>
-        </div>
-
-        <div id="zahtjevFields" class="hidden">
-          <div class="form-group">
-            <label for="requestedDate">Traženi datum:</label>
-            <input type="date" id="requestedDate" class="form-control" />
+    <div class="main-content">
+      <div class="nekretnina-info">
+        <div class="nekretnina-atributi">
+          <div class="attribute">
+            <span class="attribute-icon">
+              <i class="material-icons">apartment</i>
+            </span>
+            <span class="attribute-value" id="kvadratura"></span>
+            <span class="attribute-label">Kvadratura</span>
+          </div>
+          <div class="attribute">
+            <span class="attribute-icon">
+              <i class="material-icons">paid</i>
+            </span>
+            <span class="attribute-value" id="cijena"></span>
+            <span class="attribute-label">Cijena</span>
+          </div>
+          <div class="attribute">
+            <span class="attribute-icon">
+              <i class="material-icons">waves</i>
+            </span>
+            <span class="attribute-value" id="tipGrijanja"></span>
+            <span class="attribute-label">Tip grijanja</span>
+          </div>
+          <div class="attribute">
+            <span class="attribute-icon">
+              <i class="material-icons">calendar_today</i>
+            </span>
+            <span class="attribute-value" id="godinaIzgradnje"></span>
+            <span class="attribute-label">Godina izgradnje</span>
           </div>
         </div>
+        <div class="nekretnina-opis">
+          <h2>O nekretnini</h2>
+          <p id="opis"></p>
+        </div>
+      </div>
 
-        <div id="ponudaFields" class="hidden">
-          <div class="form-group">
-            <label for="price">Cijena ponude:</label>
-            <input type="number" id="price" class="form-control" />
-          </div>
-          <div class="form-group">
-            <label for="relatedOffer">Vezana ponuda:</label>
-            <select id="relatedOffer" class="form-control">
-              <option value="">Bez vezane ponude</option>
+      <div class="upiti-sekcija">
+        <div class="postojeci-upiti">
+          <h2>Upiti</h2>
+          <div id="listaUpita"></div>
+        </div>
+
+        <div class="forma-upit">
+          <h3>Novo interesovanje</h3>
+          <form id="formaInteresovanje">
+            <select id="tipInteresovanja">
+              <option value="upit">Upit</option>
+              <option value="zahtjev">Zahtjev</option>
+              <option value="ponuda">Ponuda</option>
             </select>
-          </div>
+
+            <textarea id="tekstUpita" placeholder="Vaša poruka..."></textarea>
+
+            <div id="zahtjevPolja" class="hidden">
+              <label for="datumZahtjeva">Traženi datum:</label>
+              <input type="date" id="datumZahtjeva" />
+            </div>
+
+            <div id="ponudaPolja" class="hidden">
+              <label for="cijenaPonude">Cijena ponude:</label>
+              <input type="number" id="cijenaPonude" />
+            </div>
+
+            <button type="submit">Pošalji upit</button>
+          </form>
         </div>
-
-        <button type="submit" class="btn">Dodaj interesovanje</button>
-      </form>
-    </div>
-
-    <h3>UPITI</h3>
-    <div id="upiti" data-index="0">
-      <div class="upit">
-        <p><strong>Username 1:</strong></p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque et
-          architecto maiores consequuntur soluta voluptas, molestias libero illo
-          minus obcaecati pariatur provident ipsum id dicta quod. Eveniet ipsum
-          iure ullam?
-        </p>
-      </div>
-      <div class="upit">
-        <p><strong>Username 2:</strong></p>
-        <p>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae dolore
-          perferendis dolor, aperiam voluptatibus neque explicabo qui, quam,
-          illo suscipit sint quo officia dolores consequatur voluptatem. Laborum
-          dolor at placeat!
-        </p>
       </div>
     </div>
-    <div class="button-container">
-      <button class="carousel-button" onclick="carouselPrev()"><</button>
-      <button class="carousel-button" onclick="carouselNext()">></button>
+
+    <div class="slicne-nekretnine">
+      <h2 id="slicneTitle">Slične nekretnine</h2>
+      <div id="listaSlicnihNekretnina" class="nekretnine-grid"></div>
     </div>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <span>©Nedim Bečić 2025.</span>
+      </div>
+    </footer>
+
+    <script src="../scripts/PoziviAjax.js"></script>
+    <script src="../scripts/detalji.js"></script>
   </body>
 </html>

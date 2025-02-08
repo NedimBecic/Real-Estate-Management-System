@@ -1,33 +1,106 @@
 <!DOCTYPE html>
 <html lang="bs-BA">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profil</title>
-    <link rel="stylesheet" type="text/css" href="../css/profil.css">
-</head>
-
-<body>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link rel="stylesheet" type="text/css" href="../css/profil.css" />
+  </head>
+  <body>
     <iframe src="meni.html"></iframe>
-    <div class="user-profil">
-        <div>
-            <img src="../Resources/ostalo/profile-image.jpg" alt="Korisnikova slika" class="user-slika">
-        </div>
-        <div></div>
-        <div>
-            <p>Ime: </p>
-            <p>Prezime: </p>
-            <p>Username: </p>
-            <p>Password: </p>
-        </div>
-        <div>
-            <input type="text" placeholder="Unesite ime">
-            <input type="text" placeholder="Unesite prezime">
-            <input type="text" placeholder="Unesite username">
-            <input type="password" placeholder="Unesite lozinku">
-        </div>
-    </div>
-</body>
 
+    <div class="container">
+      <div class="dashboard">
+        <div class="sidebar">
+          <div class="user-info">
+            <i class="material-icons profile-icon">account_circle</i>
+            <div class="user-details">
+              <h2 id="username">Loading...</h2>
+              <p class="user-role">Korisnik</p>
+            </div>
+          </div>
+
+          <nav class="sidebar-nav">
+            <ul>
+              <li>
+                <button class="nav-item active" data-section="profile">
+                  <i class="material-icons">person</i>
+                  Profil
+                </button>
+              </li>
+              <li>
+                <button class="nav-item" data-section="requests">
+                  <i class="material-icons">list_alt</i>
+                  Moji Upiti
+                </button>
+              </li>
+              <li>
+                <button class="nav-item" data-section="demands">
+                  <i class="material-icons">assignment</i>
+                  Moji Zahtjevi
+                </button>
+              </li>
+              <li>
+                <button class="nav-item" data-section="offers">
+                  <i class="material-icons">local_offer</i>
+                  Moje Ponude
+                </button>
+              </li>
+              <li>
+                <button id="confirmLogout" class="nav-item logout">
+                  <i class="material-icons">logout</i>
+                  Odjavi se
+                </button>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+        <div class="main-content">
+          <div id="profile-section" class="content-section active">
+            <h2> Detalji profila </h2>
+            <form id="profile-form" class="profile-form">
+              <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="username-input" name="username" />
+              </div>
+              <div class="form-group">
+                <label> Promijeni lozinku </label>
+                <input type="password" id="password-input" name="password" />
+              </div>
+              <button type="submit" class="submit-btn"> Spasi promjene </button>
+            </form>
+          </div>
+
+          <div id="requests-section" class="content-section">
+            <h2>Moji Upiti</h2>
+            <div id="requests-list" class="items-list"></div>
+          </div>
+
+          <div id="demands-section" class="content-section">
+            <h2>Moji Zahtjevi</h2>
+            <div id="demands-list" class="items-list"></div>
+          </div>
+
+          <div id="offers-section" class="content-section">
+            <h2>Moje Ponude</h2>
+            <div id="offers-list" class="items-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <span>©Nedim Bečić 2025.</span>
+      </div>
+    </footer>
+
+    <script src="../scripts/PoziviAjax.js"></script>
+    <script src="../scripts/profil.js"></script>
+  </body>
 </html>

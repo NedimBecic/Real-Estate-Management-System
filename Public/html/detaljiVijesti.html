@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="bs-BA">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detalji Vijesti</title>
+    <link rel="stylesheet" type="text/css" href="../css/detaljiVijesti.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  </head>
+  <body>
+    <iframe src="meni.html"></iframe>
+
+    <div class="vijesti-container">
+      <div class="share-section">
+        <h3>SHARE</h3>
+        <div class="share-buttons">
+          <a href="#" class="share-button"><i class="material-icons">facebook</i></a>
+          <a href="#" class="share-button"><i class="material-icons">share</i></a>
+          <a href="#" class="share-button"><i class="material-icons">link</i></a>
+          <a href="#" class="share-button"><i class="material-icons">email</i></a>
+        </div>
+      </div>
+
+      <div class="main-content">
+        <h1 id="vijestiTitle"></h1>
+        <div class="vijesti-meta">
+          <span id="vijestiDate"></span>
+          <span class="separator">•</span>
+          <span id="vijestiCategory"></span>
+        </div>
+        
+        <div class="vijesti-image">
+          <img id="vijestiImage" alt="Vijesti Image">
+        </div>
+
+        <div class="vijesti-text" id="vijestiContent"></div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <span>©Nedim Bečić 2025.</span>
+      </div>
+    </footer>
+
+    <script src="../scripts/PoziviAjax.js"></script>
+    <script src="../scripts/detaljiVijesti.js"></script>
+  </body>
+</html>
