@@ -1,22 +1,21 @@
 # Real Estate Management System
 
-A comprehensive real estate management system developed as part of the Web Technologies (Web Tehnologije) course at the Faculty of Electrical Engineering, University of Sarajevo. The system provides a complete solution for managing real estate listings, user interactions, and property analytics.
+A real estate management web application developed for a university course (Web Technologies, ETF Sarajevo).
 
-## Overview
+## Core Functionality
 
-The system enables real estate management through a user-friendly web interface. Users can browse available properties, make inquiries, submit viewing requests, and place offers. The platform supports both regular users and administrators, with administrators having additional capabilities for managing property requests and system content. All interactions are tracked and managed through a robust backend system, providing a complete solution for real estate agencies.
+*   **Users:** Register, login, manage profiles, view interaction history (inquiries, viewings, offers).
+*   **Properties:** Browse, filter (price, size, type), and view detailed listings (apartments, houses, commercial).
+*   **Interactions:** Submit inquiries, request viewings, make/negotiate offers.
+*   **Admin:** Manage listings, user requests, and site content.
+*   **Analytics:** Visualize price distributions, average metrics, and market trends.
+*   **News:** Built-in news section for market updates.
 
-## Features
+## Next Steps
 
-The user management system provides complete authentication functionality, allowing users to register, log in, and manage their profiles. Users can view their interaction history, including their property inquiries, viewing requests, and offers. The system implements session management with automatic timeout and protection against excessive login attempts.
+*   Migrate database to the cloud.
+*   Deploy to a hosting service.
 
-Property management is at the core of the system. Users can browse through detailed property listings, which include comprehensive information about each property including its specifications, location, and pricing. The system supports different property types including apartments, houses, and commercial spaces. Users can filter properties based on various criteria such as price range and square footage.
-
-The interaction system allows users to engage with properties in multiple ways. They can submit general inquiries, request property viewings for specific dates, and make price offers. The system supports a negotiation process where offers can receive counter-offers. Administrators can manage and respond to all types of requests through a dedicated interface.
-
-The analytics module provides valuable insights through various statistical analyses. Users can view property price distributions through interactive histograms, analyze average property metrics based on different criteria, and identify outlier properties in the market. The system also supports period-based analysis for tracking market trends.
-
-The news system keeps users informed about real estate market developments. It features a complete news article management system with support for featured articles and categorization.
 
 ## Technical Stack
 
